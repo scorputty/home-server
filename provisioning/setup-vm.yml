@@ -1,0 +1,41 @@
+---
+# - name: install system updates for centos systems
+#   yum: name=* state=latest update_cache=yes
+#   when: ansible_distribution == "CentOS"
+#
+# - name: install system updates for ubuntu systems
+#   apt: upgrade=dist update_cache=yes
+#   when: ansible_distribution == "Ubuntu"
+
+- name: install rsync
+  package: name=rsync state=latest
+
+- name: install docker
+  package: name=docker state=latest
+
+- name: start docker
+  service: name=docker state=started enabled=yes
+
+# You can add users to the docker group to allow them to manage docker
+# containers. This playbook uses sudo rather than the vagrant user because
+# Ansible uses ControlPersist for SSH connections. The first time this playbook
+# runs, the docker commands would fail if run by the vagrant user, since the
+# persisted connection state isn't aware of the addition of the 'docker' group.
+- name: Add vagrant user to docker group
+  user:
+    name: vagrant
+    groups: dockerroot
+    append: yes
+
+- name: install Pip
+  package: name=python-pip state=latest
+
+- name: install PyYAML
+  pip: name=PyYAML state=present
+
+- name: install docker compose library
+  pip: name=docker-compose state=present
+
+- name: install docker python library
+  pip: name=docker-py version=1.9.0 state=forcereinstall
+  # need version 1.9.0 as workarround https://github.com/ansible/ansible/issues/17495

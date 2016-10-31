@@ -1,0 +1,28 @@
+---
+- set_fact: compose_dir=/opt/ansible-docker
+
+- file:
+    path: "{{ compose_dir }}"
+    state: directory
+
+- name: upload docker files
+  synchronize:
+    src: "{{ item }}"
+    # this could also be "*"?
+    dest: "{{ compose_dir }}"
+  with_items:
+    - docker-compose.yml
+    - sabnzbd
+    - couchpotato
+
+- name: start docker-compose couchpotato
+  docker_service:
+    project_name: couchpotato
+    project_src: "{{ compose_dir }}/couchpotato"
+    state: present
+
+- name: start docker-compose sabnzbd
+  docker_service:
+    project_name: sabnzbd
+    project_src: "{{ compose_dir }}/sabnzbd"
+    state: present

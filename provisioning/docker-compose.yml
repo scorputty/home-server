@@ -1,0 +1,25 @@
+# This file will be called from Ansible
+
+version: '2'
+
+services:
+  sabnzbd:
+    container_name: sabnzbd
+    build: ./sabnzbd
+    image: gliderlabs/alpine:3.2
+    ports:
+      - "8080:8080"
+    volumes:
+      - /config/sabnzbd:/config/sabnzbd/
+      - /data/cache/:/cache/
+      - /data/:/data/
+  couchpotato:
+    container_name: couchpotato
+    build: ./couchpotato
+    image: gliderlabs/alpine:3.3
+    ports:
+      - "5050:5050"
+    volumes:
+      - /config/couchpotato/:/config/couchpotato/
+      - /data/Movies/:/data/Movies/
+      - /data/cache/:/cache/
