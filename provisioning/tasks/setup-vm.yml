@@ -1,17 +1,20 @@
 ---
-# - name: install system updates for centos systems
-#   yum: name=* state=latest update_cache=yes
-#   when: ansible_distribution == "CentOS"
+- name: install system updates for centos systems
+  yum: name=* state=latest update_cache=yes
+  when: ansible_distribution == "CentOS"
 #
 # - name: install system updates for ubuntu systems
 #   apt: upgrade=dist update_cache=yes
 #   when: ansible_distribution == "Ubuntu"
 
+- name: create /etc/yum.repos.d/docker.repo
+  template: src=templates/docker.repo.j2 dest=/etc/yum.repos.d/docker.repo
+
 - name: install rsync
   package: name=rsync state=latest
 
 - name: install docker
-  package: name=docker state=latest
+  package: name=docker-engine state=latest
 
 - name: start docker
   service: name=docker state=started enabled=yes
@@ -24,18 +27,22 @@
 - name: Add vagrant user to docker group
   user:
     name: vagrant
-    groups: dockerroot
+    groups: docker
     append: yes
 
-- name: install Pip
+- name: install pip
   package: name=python-pip state=latest
 
 - name: install PyYAML
-  pip: name=PyYAML state=present
+  pip: name=PyYAML state=latest
 
-- name: install docker compose library
-  pip: name=docker-compose state=present
+- name: install docker and docker-compose python clients
+  pip:
+    name: docker-py=={{ docker_py_version }} docker-compose=={{ dockercompose_py_version }}
+    state: present
 
-- name: install docker python library
-  pip: name=docker-py version=1.9.0 state=forcereinstall
-  # need version 1.9.0 as workarround https://github.com/ansible/ansible/issues/17495
+- name: install docker-compose
+  get_url:
+    url: "{{ dockercompose_url }}"
+    dest: "{{ dockercompose_install_dir }}"
+    mode: a+x
