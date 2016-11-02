@@ -7,19 +7,21 @@ services:
     container_name: sabnzbd
     build: ./sabnzbd
     image: gliderlabs/alpine:3.2
+    restart: always
     ports:
       - "8080:8080"
     volumes:
-      - /config/sabnzbd:/config/sabnzbd/
-      - /data/cache/:/cache/
-      - /data/:/data/
+      - /shared/config/sabnzbd:/config/sabnzbd
+      - /shared/data/cache:/cache
+      - /shared/data:/data
   couchpotato:
     container_name: couchpotato
     build: ./couchpotato
     image: gliderlabs/alpine:3.3
+    restart: always
     ports:
       - "5050:5050"
     volumes:
-      - /config/couchpotato/:/config/couchpotato/
-      - /data/Movies/:/data/Movies/
-      - /data/cache/:/cache/
+      - /shared/config/couchpotato:/config/couchpotato
+      - /shared/data/Movies:/data/Movies
+      - /shared/data/cache:/cache

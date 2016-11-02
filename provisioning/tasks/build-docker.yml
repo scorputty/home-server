@@ -19,10 +19,14 @@
   docker_service:
     project_name: couchpotato
     project_src: "{{ compose_dir }}/couchpotato"
-    state: present
+  register: output
+
+- debug: var=output
 
 - name: start docker-compose sabnzbd
   docker_service:
     project_name: sabnzbd
     project_src: "{{ compose_dir }}/sabnzbd"
-    state: present
+  register: output
+
+- debug: var=output

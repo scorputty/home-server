@@ -2,10 +2,6 @@
 - name: install system updates for centos systems
   yum: name=* state=latest update_cache=yes
   when: ansible_distribution == "CentOS"
-#
-# - name: install system updates for ubuntu systems
-#   apt: upgrade=dist update_cache=yes
-#   when: ansible_distribution == "Ubuntu"
 
 - name: create /etc/yum.repos.d/docker.repo
   template: src=templates/docker.repo.j2 dest=/etc/yum.repos.d/docker.repo
@@ -46,3 +42,12 @@
     url: "{{ dockercompose_url }}"
     dest: "{{ dockercompose_install_dir }}"
     mode: a+x
+
+- name: create mountpoint "{{ nfs_mount_dir }}"
+  action: file path="{{ nfs_mount_dir }}" state=directory
+
+- name: create docker "{{ docker_data_dir }}" directory
+  action: file path="{{ docker_data_dir }}" state=directory
+
+- name: create docker "{{ docker_config_dir }}" directory
+  action: file path="{{ docker_config_dir }}" state=directory
