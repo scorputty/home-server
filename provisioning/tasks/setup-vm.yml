@@ -6,33 +6,31 @@
 - name: create /etc/yum.repos.d/docker.repo
   template: src=templates/docker.repo.j2 dest=/etc/yum.repos.d/docker.repo
 
-- name: install rsync
-  package: name=rsync state=latest
-
-- name: install docker
-  package: name=docker-engine state=latest
-
-- name: start docker
-  service: name=docker state=started enabled=yes
+- name: install basic packages
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=yes
+  with_items:
+    - rsync
+    - htop
+    - vim
+    - python-pip
+    - docker-engine
 
 # You can add users to the docker group to allow them to manage docker
 # containers. This playbook uses sudo rather than the vagrant user because
 # Ansible uses ControlPersist for SSH connections. The first time this playbook
 # runs, the docker commands would fail if run by the vagrant user, since the
 # persisted connection state isn't aware of the addition of the 'docker' group.
-- name: Add vagrant user to docker group
+- name: add vagrant user to docker group
   user:
     name: vagrant
     groups: docker
     append: yes
 
-- name: install pip
-  package: name=python-pip state=latest
-
 - name: install PyYAML
   pip: name=PyYAML state=latest
 
-- name: install docker and docker-compose python clients
+- name: install docker-compose and docker-py clients
   pip:
     name: docker-py=={{ docker_py_version }} docker-compose=={{ dockercompose_py_version }}
     state: present
@@ -51,3 +49,6 @@
 
 - name: create docker "{{ docker_config_dir }}" directory
   action: file path="{{ docker_config_dir }}" state=directory
+
+- name: start docker
+  service: name=docker state=started enabled=yes

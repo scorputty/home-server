@@ -5,10 +5,27 @@
     path: "{{ compose_dir }}"
     state: directory
 
+- name: create shared config directories
+  file:
+    path: "{{ docker_config_dir }}/{{ item }}"
+    state: directory
+  with_items:
+    - sabnzbd
+    - couchpotato
+
+- name: create shared data directories
+  file:
+    path: "{{ docker_data_dir }}/{{ item }}"
+    state: directory
+  with_items:
+    - Movies
+    - TVshows
+    - Music
+
+
 - name: upload docker files
   synchronize:
     src: "{{ item }}"
-    # this could also be "*"?
     dest: "{{ compose_dir }}"
   with_items:
     - docker-compose.yml

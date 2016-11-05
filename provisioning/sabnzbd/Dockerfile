@@ -40,10 +40,24 @@ RUN buildDeps="gcc g++ git mercurial make automake autoconf python-dev openssl-d
     /sabnzbd/.git \
     /tmp/*
 
-EXPOSE 8080 9090
+EXPOSE 8080
 
 VOLUME ["/config", "/data"]
 
 WORKDIR /sabnzbd
 
-CMD su -pc "./SABnzbd.py -b 0 -f /config/ -s 0.0.0.0:8080"
+# add user for media
+# RUN useradd -u 800 media
+
+# add the startup script
+ADD start.sh /start.sh
+RUN chmod +x /start.sh
+
+# switch to user media
+USER media
+
+# ususally runs on 8080
+EXPOSE 8080
+
+# CMD can be easily overwritten for debugging
+CMD ["/start.sh"]

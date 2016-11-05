@@ -11,9 +11,10 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - /shared/config/sabnzbd:/config/sabnzbd
+      - /shared/config/sabnzbd:/config
       - /shared/data/cache:/cache
       - /shared/data:/data
+
   couchpotato:
     container_name: couchpotato
     build: ./couchpotato
