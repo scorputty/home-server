@@ -19,7 +19,7 @@
     state: directory
   with_items:
     - Movies
-    - TVshows
+    - TV.shows
     - Music
 
 
@@ -32,18 +32,11 @@
     - sabnzbd
     - couchpotato
 
-- name: start docker-compose couchpotato
+- name: start docker-compose
   docker_service:
-    project_name: couchpotato
-    project_src: "{{ compose_dir }}/couchpotato"
-  register: output
-
-- debug: var=output
-
-- name: start docker-compose sabnzbd
-  docker_service:
-    project_name: sabnzbd
-    project_src: "{{ compose_dir }}/sabnzbd"
+    project_src: "{{ compose_dir }}"
+    debug: yes
+    state: present
   register: output
 
 - debug: var=output

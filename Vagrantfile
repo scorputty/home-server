@@ -6,10 +6,10 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(2) do |config|
-  config.vm.network "private_network", ip: "192.168.100.111"
+  #config.vm.network "private_network", ip: "10.10.10.22"
   config.vm.provider "virtualbox" do |vb|
-    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    #vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    #vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     vb.customize ["modifyvm", :id, "--memory", 2048]
     vb.customize ["modifyvm", :id, "--cpus", 1]
   end
@@ -25,10 +25,11 @@ Vagrant.configure(2) do |config|
   # I use the following plugin to keep a current VirtualBox Guest-Additions
   # vagrant plugin install vagrant-vbguest
   # link = https://github.com/dotless-de/vagrant-vbguest
-  config.vbguest.auto_update = true
+  config.vbguest.auto_update = false
   config.vbguest.no_remote = false
   # Run Ansible from the Vagrant Host
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "provisioning/main.yml"
+    ansible.verbose = "true"
   end
 end

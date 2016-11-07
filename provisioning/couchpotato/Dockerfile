@@ -1,4 +1,4 @@
-FROM gliderlabs/alpine:3.3
+FROM gliderlabs/alpine:latest
 MAINTAINER http://gliderlabs.viewdocs.io/docker-alpine
 
 ENV LANG='en_US.UTF-8' \
@@ -23,12 +23,11 @@ RUN apk add --update \
     && pip install --upgrade pip \
     && pip --no-cache-dir install --upgrade setuptools \
     && pip --no-cache-dir install --upgrade pyopenssl \
+    && rm -rf /CouchPotatoServer \
     && git clone --depth 1 https://github.com/RuudBurger/CouchPotatoServer.git /CouchPotatoServer \
     && apk del make gcc g++ python-dev \
     && rm -rf /tmp/src \
     && rm -rf /var/cache/apk/*
-
-VOLUME ["/config", "/data"]
 
 ADD ./start.sh /start.sh
 RUN chmod u+x  /start.sh

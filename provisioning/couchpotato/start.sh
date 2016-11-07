@@ -4,6 +4,8 @@
 test -d /config || exit 1
 # same goes for data
 test -d /data || exit 2
+# create /config/couchpotato if it doesnt exist
+test -d /config/couchpotato || mkdir /config/couchpotato
 
 # here is the git checkout
 cd /CouchPotatoServer

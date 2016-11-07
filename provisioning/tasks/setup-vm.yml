@@ -1,14 +1,14 @@
 ---
-- name: install system updates for centos systems
-  yum: name=* state=latest update_cache=yes
-  when: ansible_distribution == "CentOS"
+# - name: install system updates for centos systems
+#   yum: name=* state=latest update_cache=yes
+#   when: ansible_distribution == "CentOS"
 
 - name: create /etc/yum.repos.d/docker.repo
   template: src=templates/docker.repo.j2 dest=/etc/yum.repos.d/docker.repo
 
 - name: install basic packages
   action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=yes
+    {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
   with_items:
     - rsync
     - htop
@@ -30,16 +30,15 @@
 - name: install PyYAML
   pip: name=PyYAML state=latest
 
-- name: install docker-compose and docker-py clients
+- name: install docker-py
   pip:
     name: docker-py=={{ docker_py_version }} docker-compose=={{ dockercompose_py_version }}
     state: present
 
 - name: install docker-compose
-  get_url:
-    url: "{{ dockercompose_url }}"
-    dest: "{{ dockercompose_install_dir }}"
-    mode: a+x
+  pip:
+    name: docker-compose
+    state: latest
 
 - name: create mountpoint "{{ nfs_mount_dir }}"
   action: file path="{{ nfs_mount_dir }}" state=directory

@@ -1,15 +1,11 @@
+#!/bin/sh
 
-#!/bin/bash
-
-# if /config doesnt exist, exit
-test -d /config || exit 1
-# same goes for data
-test -d /data || exit 2
-
-#sabnzbdplus --daemon --config-file /config/sabnzbd -s 0.0.0.0:8080
-
-su -pc "./SABnzbd.py -b 0 -d -f /config/sabnzbd -s 0.0.0.0:8080"
-
-sleep 5
-
-tail -f /config/sabnzbd/logs/sabnzbd.*
+[ -z "$UID" ] && UID=0
+[ -z "$GID" ] && GID=0
+echo -e "appuser:x:${UID}:${GID}:appuser:/app:/bin/false\n" >> /etc/passwd
+echo -e "appgroup:x:${GID}:appuser\n" >> /etc/group
+mkdir -p /config
+mkdir -p /data
+chown -R appuser:appgroup /config
+chown appuser:appgroup /data
+exec /bin/su -p -s "/bin/sh" -c "exec ./SABnzbd.py -b 0 -f /config/ -s 0.0.0.0:8080" appuser
