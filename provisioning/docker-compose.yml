@@ -5,7 +5,6 @@ version: '2'
 services:
   couchpotato:
     container_name: couchpotato
-    build: ./couchpotato
     image: docker.io/cryptout/couchpotato
     ports:
       - "5050:5050"
@@ -18,7 +17,6 @@ services:
 
   sabnzbd:
     container_name: sabnzbd
-    build: ./sabnzbd
     image: docker.io/cryptout/sabnzbd
     ports:
       - "8080:8080"
@@ -33,7 +31,6 @@ services:
 
   deluge:
     container_name: deluge
-    build: ./deluge
     image: docker.io/cryptout/deluge
     ports:
       - "8112:8112"
