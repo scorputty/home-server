@@ -5,23 +5,27 @@
     path: "{{ compose_dir }}"
     state: directory
 
-- name: create shared config directories
+- name: create shared docker config directories
+  become: true
+  become_user: vagrant
   file:
     path: "{{ docker_config_dir }}/{{ item }}"
     state: directory
   with_items:
     - sabnzbd
     - couchpotato
+    - deluge
 
-- name: create shared data directories
+- name: create shared docker data directories
+  become: true
+  become_user: vagrant
   file:
     path: "{{ docker_data_dir }}/{{ item }}"
     state: directory
   with_items:
     - Movies
-    - TV.shows
+    - TV.Shows
     - Music
-
 
 - name: upload docker files
   synchronize:
@@ -29,8 +33,9 @@
     dest: "{{ compose_dir }}"
   with_items:
     - docker-compose.yml
-    - sabnzbd
-    - couchpotato
+
+- name: start docker daemon
+  service: name=docker state=started enabled=yes
 
 - name: start docker-compose
   docker_service:

@@ -1,10 +1,14 @@
 ---
-docker_py_version: 1.9.0
-dockercompose_py_version: 1.8.0
-dockercompose_version: 1.8.0
-dockercompose_platform: Linux-x86_64
-dockercompose_url: https://github.com/docker/compose/releases/download/{{ dockercompose_version }}/docker-compose-{{ dockercompose_platform }}
-dockercompose_install_dir: /usr/local/bin/docker-compose
-nfs_mount_dir: /shared
+docker_py_version: "1.9.0"
+dockercompose_py_version: "1.8.0"
+dockercompose_version: "1.8.0"
+dockercompose_platform: "Linux-x86_64"
+dockercompose_url: "https://github.com/docker/compose/releases/download/{{ dockercompose_version }}/docker-compose-{{ dockercompose_platform }}"
+dockercompose_install_dir: "/usr/local/bin/docker-compose"
+nfs_server: "172.16.10.1"
+nfs_options: "rw,sync,nfsvers=4"
+nfs_source_dir: "mars/shares/docker"
+nfs_mount_dir: "/shared"
 docker_data_dir: "{{ nfs_mount_dir }}/data"
 docker_config_dir: "{{ nfs_mount_dir }}/config"
+docker_registry_dir: "{{ nfs_mount_dir }}/docker-registry"

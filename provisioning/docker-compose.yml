@@ -3,26 +3,48 @@
 version: '2'
 
 services:
-  # couchpotato:
-  #   container_name: couchpotato
-  #   build: ./couchpotato
-  #   image: alpine:latest
-  #   ports:
-  #     - "5050:5050"
-  #   volumes:
-  #     - /shared/config/couchpotato:/config/couchpotato
-  #     - /shared/data:/data
-  #     - /shared/data/cache:/cache
+  couchpotato:
+    container_name: couchpotato
+    build: ./couchpotato
+    image: docker.io/cryptout/couchpotato
+    ports:
+      - "5050:5050"
+    environment:
+      - ENV appUser="media"
+      - ENV appGroup="1000"
+    volumes:
+      - /shared/config/couchpotato:/config
+      - /shared/data:/data
+
   sabnzbd:
     container_name: sabnzbd
     build: ./sabnzbd
-    image: alpine:latest
+    image: docker.io/cryptout/sabnzbd
     ports:
       - "8080:8080"
+      - "9090:9090"
     environment:
-      - UID=vagrant
-      - GID=vagrant
+      - ENV appUser="media"
+      - ENV appGroup="1000"
     volumes:
-      - /shared/config/sabnzbd:/config/sabnzbd
-      - /shared/data:/data
-    restart: always
+      - /shared/config/sabnzbd:/config
+      - /shared/data/sabnzbd/downloads:/downloads
+      - /shared/data/sabnzbd/incomplete-downloads:/incomplete-downloads
+
+  deluge:
+    container_name: deluge
+    build: ./deluge
+    image: docker.io/cryptout/deluge
+    ports:
+      - "8112:8112"
+      - "58846:58846"
+      - "58946/udp:58946/udp"
+    environment:
+      - TZ="Europe/Amsterdam"
+      - PUID="1000"
+      - PGID="1000"
+      - ENV appUser="media"
+      - ENV appGroup="1000"
+    volumes:
+      - /shared/config/deluge:/config
+      - /shared/data/deluge/downloads:/downloads
