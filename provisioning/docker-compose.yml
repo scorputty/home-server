@@ -8,6 +8,9 @@ services:
     image: docker.io/cryptout/couchpotato
     ports:
       - "5050:5050"
+    links:
+      - sabnzbd
+      - deluge
     environment:
       - ENV appUser="media"
       - ENV appGroup="1000"
@@ -21,6 +24,9 @@ services:
     ports:
       - "8080:8080"
       - "9090:9090"
+    expose:
+      - "8080"
+      - "9090"
     environment:
       - ENV appUser="media"
       - ENV appGroup="1000"
@@ -36,6 +42,10 @@ services:
       - "8112:8112"
       - "58846:58846"
       - "58946/udp:58946/udp"
+    expose:
+      - "8112"
+      - "58846"
+      - "58496/udp"
     environment:
       - TZ="Europe/Amsterdam"
       - PUID="1000"
