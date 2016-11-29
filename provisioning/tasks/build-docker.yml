@@ -15,6 +15,19 @@
     - sabnzbd
     - couchpotato
     - deluge
+    - vault
+
+- name: create shared docker log directories
+  become: true
+  become_user: vagrant
+  file:
+    path: "{{ docker_log_dir }}/{{ item }}"
+    state: directory
+  with_items:
+    - sabnzbd
+    - couchpotato
+    - deluge
+    - vault
 
 - name: create shared docker data directories
   become: true

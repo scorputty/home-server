@@ -3,6 +3,16 @@
 version: '2'
 
 services:
+  vault:
+    container_name: vault
+    image: docker.io/vault
+    ports:
+      - "8200:8200"
+    volumes:
+      - /shared/log/vault
+      - /shared/data/vault
+      - /shared/config/vault
+
   couchpotato:
     container_name: couchpotato
     image: docker.io/cryptout/couchpotato
