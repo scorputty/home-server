@@ -13,6 +13,16 @@ services:
       - /shared/data/vault
       - /shared/config/vault
 
+  consul:
+    container_name: consul
+    image: docker.io/consul
+    ports:
+      - "8300:8300"
+    volumes:
+      - /shared/log/consul
+      - /shared/data/consul
+      - /shared/config/consul
+
   couchpotato:
     container_name: couchpotato
     image: docker.io/cryptout/couchpotato

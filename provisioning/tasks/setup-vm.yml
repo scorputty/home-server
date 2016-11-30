@@ -56,3 +56,4 @@
     - "{{ docker_data_dir }}"
     - "{{ docker_config_dir }}"
     - "{{ docker_registry_dir }}"
+    - "{{ docker_media_dir }}"
