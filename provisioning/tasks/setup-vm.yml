@@ -23,15 +23,20 @@
     groups: docker
     append: yes
 
-- name: install PyYAML
-  pip: name=PyYAML state=latest
+- name: install with python-pip packages
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - PyYAML
+    - python-consul
 
-- name: install docker-py
+- name: install with python-pip docker-py
   pip:
     name: docker-py=={{ docker_py_version }} docker-compose=={{ dockercompose_py_version }}
     state: present
 
-- name: install docker-compose
+- name: install with python-pip docker-compose
   pip:
     name: docker-compose
     state: latest
