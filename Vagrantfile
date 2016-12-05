@@ -31,5 +31,7 @@ Vagrant.configure(2) do |config|
   #   ansible.playbook = "provisioning/main.yml"
   #   ansible.verbose = "false"
   # end
+  # Run remote like this"
+  # ansible-playbook -i ~/ansible/hosts --ask-pass --user=vagrant --become provisioning/main.yml
 
 end

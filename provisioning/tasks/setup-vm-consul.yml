@@ -4,15 +4,27 @@
     port: 8501
     service_name: couchpotato
     service_port: 5050
+    script: "curl http://couchpotato:5050"
+    interval: 10s
+    tags:
+      - prod
 
 - name: register sabnzbd service with the local consul agent
   consul:
     port: 8501
     service_name: sabnzbd
     service_port: 8080
+    script: "curl http://sabnzbd:8080"
+    interval: 10s
+    tags:
+      - prod
 
 - name: register deluge service with the local consul agent
   consul:
     port: 8501
     service_name: deluge
     service_port: 8112
+    script: "curl http://deluge:8112"
+    interval: 10s
+    tags:
+      - prod

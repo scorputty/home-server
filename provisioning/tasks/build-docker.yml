@@ -5,15 +5,16 @@
     path: "{{ compose_dir }}"
     state: directory
 
-- name: create shared docker directories
+- name: create default shared docker directories
   become: true
   become_user: vagrant
   file:
     path: "{{ item.0 }}/{{ item.1 }}"
     state: directory
+    mode: 0775
   with_nested:
     - [ "{{ docker_config_dir }}", "{{ docker_log_dir }}", "{{ docker_data_dir }}" ]
-    - [ "consul", "vault", "sabnzbd", "deluge", "couchpotato" ]
+    - [ "vault", "sabnzbd", "deluge", "couchpotato" ]
 
 - name: create shared docker media directories
   become: true
@@ -25,6 +26,32 @@
     - Movies
     - TV.Shows
     - Music
+
+- name: add consul group
+  group:
+    name: consul
+    gid: 345
+    state: present
+
+- name: add consul user
+  user:
+    name: consul
+    uid: 345
+    groups: consul,vagrant
+    append: yes
+
+- name: create consul directories
+  become: true
+  become_user: consul
+  file:
+    path: "{{ item.0 }}/{{ item.1 }}"
+    state: directory
+    owner: consul
+    group: consul
+    mode: 0775
+  with_nested:
+    - [ "{{ docker_config_dir }}", "{{ docker_log_dir }}", "{{ docker_data_dir }}" ]
+    - [ "consul" ]
 
 - name: upload docker files
   synchronize:
@@ -40,6 +67,7 @@
   docker_service:
     project_src: "{{ compose_dir }}"
     debug: yes
+    recreate: always
     state: present
   register: output
 

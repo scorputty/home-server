@@ -17,7 +17,7 @@
     - python-pip
     - docker-engine
 
-- name: add vagrant user to docker group
+- name: add vagrant user to docker
   user:
     name: vagrant
     groups: docker
