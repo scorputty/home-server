@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "private_network", ip: "192.168.10.222"
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", 2048]
-    vb.customize ["modifyvm", :id, "--cpus", 1]
+    vb.customize ["modifyvm", :id, "--cpus", 2]
   end
 
   # The most common configuration options are documented and commented below.
@@ -27,10 +27,10 @@ Vagrant.configure(2) do |config|
   config.vbguest.no_remote = false
 
   # Run Ansible from the Vagrant Host
-  # config.vm.provision "ansible" do |ansible|
-  #   ansible.playbook = "provisioning/main.yml"
-  #   ansible.verbose = "false"
-  # end
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "provisioning/main.yml"
+    ansible.verbose = "false"
+  end
   # Run remote like this"
   # ansible-playbook -i ~/ansible/hosts --ask-pass --user=vagrant --become provisioning/main.yml
 
