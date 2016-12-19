@@ -1,7 +1,7 @@
 ---
 # local docker repo
 
-- name: install basic packages
+- name: install docker-registry packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
   with_items:
@@ -9,6 +9,6 @@
 
 - name: overwrite /etc/docker-registry.yml
   template: src=templates/docker-registry.j2 dest=/etc/docker-registry.yml
-  
+
 - name: start docker-registry daemon
   service: name=docker-registry state=started enabled=yes
