@@ -6,6 +6,6 @@
 
   tasks:
     - include: tasks/setup-vm.yml
-  #  - include: tasks/setup-docker-registry.yml
+    #- include: tasks/setup-docker-registry.yml
     - include: tasks/build-docker.yml
-  #  - include: tasks/setup-vm-consul.yml
+    - include: tasks/setup-vm-consul.yml

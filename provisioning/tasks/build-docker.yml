@@ -14,7 +14,7 @@
     mode: 0775
   with_nested:
     - [ "{{ docker_config_dir }}", "{{ docker_log_dir }}", "{{ docker_data_dir }}" ]
-    - [ "vault", "sabnzbd", "deluge", "couchpotato" ]
+    - [ "vault", "sabnzbd", "couchpotato", "transmission" ]
 
 - name: create shared docker media directories
   become: true
@@ -42,7 +42,7 @@
     state: directory
     owner: consul
     group: vagrant
-    mode: 0775
+    mode: 0777
   with_nested:
     - [ "{{ docker_config_dir }}", "{{ docker_log_dir }}", "{{ docker_data_dir }}" ]
     - [ "consul" ]
@@ -62,7 +62,7 @@
     project_src: "{{ compose_dir }}"
     debug: yes
     recreate: always
-    state: absent
+    state: present
   register: output
 
 - debug: var=output
