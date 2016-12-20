@@ -20,6 +20,7 @@
     - vim
     - python-pip
     - docker-engine
+    - lsof
 
 - name: add vagrant user to docker
   user:

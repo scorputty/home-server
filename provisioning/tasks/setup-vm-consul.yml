@@ -3,7 +3,7 @@
   consul:
     service_name: couchpotato
     service_port: 5050
-    script: "curl http://couchpotato:5050"
+    script: "curl http://0.0.0.0:5050"
     interval: 10s
     tags:
       - prod
@@ -12,7 +12,7 @@
   consul:
     service_name: sabnzbd
     service_port: 8080
-    script: "curl http://sabnzbd:8080"
+    script: "curl http://0.0.0.0:8080"
     interval: 10s
     tags:
       - prod
@@ -21,7 +21,7 @@
   consul:
     service_name: transmission
     service_port: 9091
-    script: "curl http://transmission:9091"
+    script: "curl http://0.0.0.0:9091"
     interval: 10s
     tags:
       - prod
