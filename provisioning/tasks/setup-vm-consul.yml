@@ -17,6 +17,15 @@
     tags:
       - prod
 
+- name: register sickrage service with the local consul agent
+  consul:
+    service_name: sickrage
+    service_port: 8081
+    script: "curl http://0.0.0.0:8081"
+    interval: 10s
+    tags:
+      - prod
+
 - name: register deluge service with the local consul agent
   consul:
     service_name: transmission
