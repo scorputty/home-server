@@ -81,3 +81,21 @@ services:
       - /etc/localtime:/etc/timezone:ro
       - /shared/data/transmission/downloads:/downloads
       - /shared/data/transmission/incomplete:/incomplete
+
+  sickrage:
+    container_name: sickrage
+    image: docker.io/cryptout/sickrage
+    hostname: sickrage
+    network_mode: host
+    ports:
+      - 8081:8081
+    environment:
+      - PUID="1000"
+      - PGID="1000"
+      - ENV appUser="media"
+      - ENV appGroup="1000"
+    volumes:
+      - /etc/localtime:/etc/timezone:ro
+      - /shared/data/sickrage/data:/data
+      - /shared/config/sickrage/config:/config
+      - /shared/config/sickrage/cache:/cache
