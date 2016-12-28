@@ -1,0 +1,68 @@
+---
+- set_fact: compose_dir=/opt/ansible-docker
+
+- file:
+    path: "{{ compose_dir }}"
+    state: directory
+
+- name: create default shared docker directories
+  become: true
+  become_user: vagrant
+  file:
+    path: "{{ item.0 }}/{{ item.1 }}"
+    state: directory
+    mode: 0775
+  with_nested:
+    - [ "{{ docker_config_dir }}", "{{ docker_log_dir }}", "{{ docker_data_dir }}" ]
+    - [ "vault", "sabnzbd", "couchpotato", "transmission" ]
+
+- name: create shared docker media directories
+  become: true
+  become_user: vagrant
+  file:
+    path: "{{ docker_media_dir }}/{{ item }}"
+    state: directory
+  with_items:
+    - Movies
+    - TV.Shows
+    - Music
+
+- name: add consul user
+  user:
+    name: consul
+    uid: 100
+    groups: vagrant
+    append: yes
+
+- name: create consul directories
+  become: true
+  become_user: consul
+  file:
+    path: "{{ item.0 }}/{{ item.1 }}"
+    state: directory
+    owner: consul
+    group: vagrant
+    mode: 0777
+  with_nested:
+    - [ "{{ docker_config_dir }}", "{{ docker_log_dir }}", "{{ docker_data_dir }}" ]
+    - [ "consul" ]
+
+- name: upload docker files
+  synchronize:
+    src: "{{ item }}"
+    dest: "{{ compose_dir }}"
+  with_items:
+    - docker-compose.yml
+
+- name: start docker daemon
+  service: name=docker state=started enabled=yes
+
+- name: start docker-compose
+  docker_service:
+    project_src: "{{ compose_dir }}"
+    debug: yes
+    recreate: always
+    state: present
+  register: output
+
+- debug: var=output
