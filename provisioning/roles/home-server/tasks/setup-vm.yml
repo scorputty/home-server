@@ -3,10 +3,6 @@
   yum: name=epel-release state=latest
   when: ansible_distribution == "CentOS"
 
-- name: install system updates for centos systems
-  yum: name=* state=latest update_cache=yes
-  when: ansible_distribution == "CentOS"
-
 - name: create /etc/yum.repos.d/docker.repo
   template: src=templates/docker.repo.j2 dest=/etc/yum.repos.d/docker.repo
 
@@ -40,35 +36,3 @@
 
 - name: force upgrade docker-compose
   command: pip install --upgrade docker-compose
-#
-# - name: install with python-pip docker-py
-#   pip:
-#     name: docker-py=={{ docker_py_version }} docker-compose=={{ dockercompose_py_version }}
-#     state: present
-#
-# - name: install with python-pip docker-compose
-#   pip:
-#     name: docker-compose
-#     state: latest
-
-- name: ensure rpcbind is running
-  action: service name=rpcbind state=started enabled=yes
-
-- name: create mountpoint "{{ nfs_mount_dir }}"
-  action: file path="{{ nfs_mount_dir }}" state=directory
-
-- name: configure /etc/fstab for nfs mount
-  action: mount name={{ nfs_mount_dir }} src={{ nfs_server }}:{{ nfs_source_dir }} fstype=nfs opts={{ nfs_options }} state=mounted
-
-- name: make sure shared docker directories are available
-  become: true
-  become_user: vagrant
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: 0775
-  with_items:
-    - "{{ docker_data_dir }}"
-    - "{{ docker_config_dir }}"
-    - "{{ docker_registry_dir }}"
-    - "{{ docker_media_dir }}"

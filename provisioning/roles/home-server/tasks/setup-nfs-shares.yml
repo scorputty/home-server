@@ -1,0 +1,22 @@
+---
+- name: ensure rpcbind is running
+  action: service name=rpcbind state=started enabled=yes
+
+- name: create mountpoint "{{ nfs_mount_dir }}"
+  action: file path="{{ nfs_mount_dir }}" state=directory
+
+- name: configure /etc/fstab for nfs mount
+  action: mount name={{ nfs_mount_dir }} src={{ nfs_server }}:{{ nfs_source_dir }} fstype=nfs opts={{ nfs_options }} state=mounted
+
+- name: make sure shared docker directories are available
+  become: true
+  become_user: vagrant
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0775
+  with_items:
+    - "{{ docker_data_dir }}"
+    - "{{ docker_config_dir }}"
+    - "{{ docker_registry_dir }}"
+    - "{{ docker_media_dir }}"

@@ -14,7 +14,7 @@
     mode: 0775
   with_nested:
     - [ "{{ docker_config_dir }}", "{{ docker_log_dir }}", "{{ docker_data_dir }}" ]
-    - [ "vault", "sabnzbd", "couchpotato", "transmission" ]
+    - [ "vault", "sabnzbd", "couchpotato", "transmission", "sickrage" ]
 
 - name: create shared docker media directories
   become: true
