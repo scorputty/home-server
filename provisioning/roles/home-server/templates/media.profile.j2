@@ -1,0 +1,73 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+
+export PATH
+
+# custom bit
+alias ll="ls -latr"
+alias c="clear; date"
+
+# below are handy docker shortcuts
+# status containers
+function dstat {
+  docker ps -a
+}
+# status images
+function dimage {
+  docker images
+}
+# stop containers
+function dstop {
+  docker ps |grep -v CON
+  if [ $? -eq 1 ];then
+    echo "No running containers found..."
+  else
+    echo "Stopping all containers listed below..."
+    docker ps
+    docker ps |grep -v CON |awk '{print $1}' |xargs docker stop
+  fi
+}
+# remove containers
+function drm {
+  docker ps -a |grep -v CON
+  if [ $? -eq 1 ];then
+    echo "No stopped containers found..."
+  else
+    echo "Removing all stopped containers listed below..."
+    docker ps -a
+    docker ps -a |grep -v CON |awk '{print $1}' |xargs docker rm
+  fi
+}
+# remove images
+function drmi {
+  docker images |grep -v IMA
+  if [ $? -eq 1 ];then
+    echo "No images found..."
+  else
+    echo "Removing all container images listed below..."
+    docker images
+    docker images |grep -v IMA |awk '{print $3}' |xargs docker rmi
+  fi
+}
+# remove all
+function drmrf {
+  docker images |grep -v IMA
+  if [ $? -eq 1 ];then
+    echo "Nothing found..."
+  else
+    echo "Removing all containers and images listed below..."
+    docker ps -a
+    docker images
+    dstop >/dev/null 2>&1
+    drm >/dev/null 2>&1
+    drmi >/dev/null 2>&1
+  fi
+}

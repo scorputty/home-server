@@ -19,3 +19,7 @@
   yum: name=* state=latest update_cache=yes
   when: ansible_distribution == "CentOS"
   tags: update
+
+- name: dump all vars to /root/ansible.allvars
+  action: template src=templates/dumpall.j2 dest=/root/ansible.allvars
+  tags: dump-vars

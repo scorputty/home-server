@@ -3,46 +3,34 @@
 version: '2'
 
 services:
-  consul:
-    container_name: consul
-    image: docker.io/consul
-    hostname: consul
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker
+    hostname: plex
     network_mode: host
+    restart: unless-stopped
     ports:
-      - "8300:8300"
-      - "8301:8301"
-      - "8301:8301/udp"
-      - "8302:8302"
-      - "8302:8302/udp"
-      - "8400:8400"
-      - "8500:8500"
-      - "8600:8600"
-      - "8600:8600/udp"
-
+      - 32400:32400/tcp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
     environment:
-      - ENV appUser="consul"
-      - ENV appGroup="1000"
-      - 'CONSUL_LOCAL_CONFIG={"skip_leave_on_interrupt": true}'
-    command: agent -ui -server -bind=127.0.0.1 -bootstrap-expect=1 -client=0.0.0.0
+      - TZ=Europe/Amsterdam
+      - PLEX_UID="10000"
+      - PLEX_GID="10000"
+      - PLEX_CLAIM=Wdtmn27zos7AqDtiq4tr
+      - ADVERTISE_IP=http://localhost:32400
     volumes:
-      - /etc/localtime:/etc/timezone:ro
-      - /shared/data/consul:/consul/data
-      - /shared/config/consul:/consul/config
-
-  couchpotato:
-    container_name: couchpotato
-    image: docker.io/cryptout/couchpotato
-    hostname: couchpotato
-    network_mode: host
-    ports:
-      - "5050:5050"
-    environment:
-      - ENV appUser="media"
-      - ENV appGroup="1000"
-    volumes:
-      - /etc/localtime:/etc/timezone:ro
-      - /shared/config/couchpotato:/config
-      - /shared/data/couchpotato:/data
+      - /shared/config/plex:/config
+      - /shared/data/plex:/transcode
+      - /shared/media/TV.Shows:/data/tvshows
+      - /shared/media/Movies:/data/movies
+      - /shared/media/Music:/data/mediaTypeA
 
   sabnzbd:
     container_name: sabnzbd
@@ -55,13 +43,17 @@ services:
     expose:
       - "9090"
     environment:
+      - TZ=Europe/Amsterdam
+      - PUID="10000"
+      - PGID="10000"
       - ENV appUser="media"
-      - ENV appGroup="1000"
+      - ENV appGroup="media"
     volumes:
       - /etc/localtime:/etc/timezone:ro
       - /shared/config/sabnzbd:/config
-      - /shared/data/sabnzbd/downloads:/downloads
-      - /shared/data/sabnzbd/incomplete:/incomplete-downloads
+      - /shared/data/downloads:/downloads
+      - /shared/data/incomplete:/incomplete-downloads
+      - /shared/media:/media
 
   transmission:
     container_name: transmission
@@ -73,14 +65,16 @@ services:
       - 51413:51413
       - 51413:51413/udp
     environment:
-      - PUID="1000"
-      - PGID="1000"
+      - TZ=Europe/Amsterdam
+      - PUID="10000"
+      - PGID="10000"
       - ENV appUser="media"
-      - ENV appGroup="1000"
+      - ENV appGroup="media"
     volumes:
       - /etc/localtime:/etc/timezone:ro
-      - /shared/data/transmission/downloads:/downloads
-      - /shared/data/transmission/incomplete:/incomplete
+      - /shared/data/downloads:/downloads
+      - /shared/data/incomplete:/incomplete
+      - /shared/media:/media
 
   sickrage:
     container_name: sickrage
@@ -90,12 +84,13 @@ services:
     ports:
       - 8081:8081
     environment:
-      - PUID="1000"
-      - PGID="1000"
+      - TZ=Europe/Amsterdam
+      - PUID="10000"
+      - PGID="10000"
       - ENV appUser="media"
-      - ENV appGroup="1000"
+      - ENV appGroup="media"
     volumes:
       - /etc/localtime:/etc/timezone:ro
-      - /shared/data/sickrage/data:/data
-      - /shared/config/sickrage/config:/config
-      - /shared/config/sickrage/cache:/cache
+      - /shared/data/sickrage:/data
+      - /shared/config/sickrage:/config
+      - /shared/media:/media

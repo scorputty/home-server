@@ -1,5 +1,7 @@
+---
 # Development gets local mounts
-nfs_mount_dir: "./shared"
+nfs_share: "false"
+nfs_mount_dir: "/shared"
 docker_data_dir: "{{ nfs_mount_dir }}/data"
 docker_config_dir: "{{ nfs_mount_dir }}/config"
 docker_log_dir: "{{ nfs_mount_dir }}/log"

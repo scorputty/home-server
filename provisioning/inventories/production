@@ -1,4 +1,4 @@
 # file: production
 
-[home-server]
-home-server.sc-ict.intranet
+[production]
+home-server

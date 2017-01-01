@@ -1,28 +1,25 @@
 ---
-- name: add epel repository
-  yum: name=epel-release state=latest
-  when: ansible_distribution == "CentOS"
+- name: remove yum-plugin-fastestmirror
+  yum: name=yum-utils state=absent
 
-- name: create /etc/yum.repos.d/docker.repo
+- name: add epel repository
+  yum: name=epel-release state=present
+
+- name: add docker repository
   template: src=templates/docker.repo.j2 dest=/etc/yum.repos.d/docker.repo
 
 - name: install basic packages
-  action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
+  yum: name={{ item }} state=present
   with_items:
-    - nfs-utils
-    - rsync
-    - htop
-    - vim
-    - python-pip
     - docker-engine
+    - htop
     - lsof
-
-- name: add vagrant user to docker
-  user:
-    name: vagrant
-    groups: docker
-    append: yes
+    - nfs-utils
+    - python-pip
+    - rsync
+    - strace
+    - traceroute
+    - vim
 
 - name: install with python-pip packages
   pip:
@@ -36,3 +33,21 @@
 
 - name: force upgrade docker-compose
   command: pip install --upgrade docker-compose
+
+- name: add media group
+  group:
+    name: media
+    gid: 10000
+    state: present
+
+- name: add media user
+  user:
+    name: media
+    uid: 10000
+    shell: /bin/bash
+    group: media
+    groups: docker
+    append: yes
+
+- name: add bash_profile for media user
+  template: src=templates/media.profile.j2 dest=~media/.bash_profile

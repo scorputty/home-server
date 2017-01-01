@@ -1,4 +1,4 @@
 # file: development
 
-[home-server]
-dev-home-server.sc-ict.intranet
+[development]
+dev-home-server

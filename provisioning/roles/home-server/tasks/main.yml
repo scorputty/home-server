@@ -1,9 +1,9 @@
 ---
-- hosts: all
-  become: yes
-  tasks:
-    - include: setup-vm.yml
-    # - include: setup-nfs-shares.yml
-    # - include: setup-docker-registry.yml
-    # - include: build-docker.yml
-    # - include: setup-vm-consul.yml
+  - include: setup-vm.yml
+    tags: setup-vm
+  - include: setup-nfs-shares.yml
+    tags: setup-nfs-shares
+  - include: setup-docker.yml
+    tags: setup-docker
+  # - include: setup-consul-agent.yml
+  #   tags: setup-consul-agent

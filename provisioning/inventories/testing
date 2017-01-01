@@ -1,4 +1,4 @@
 # file: testing
 
-[home-server]
-test-home-server.sc-ict.intranet
+[testing]
+test-home-server

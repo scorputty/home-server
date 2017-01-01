@@ -1,5 +1,6 @@
 ---
-nfs_server: "172.16.10.1"
+nfs_share: "true"
+nfs_server: "super.sc-ict.intranet"
 nfs_options: "rw,sync,nfsvers=4"
 # This should switch depending on environment
 nfs_source_dir: "mars/shares/TEST/home-server"
