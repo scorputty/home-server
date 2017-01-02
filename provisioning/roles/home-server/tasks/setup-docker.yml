@@ -24,7 +24,7 @@
     state: directory
   with_nested:
     - [ "{{ docker_config_dir }}" ]
-    - [ "plex",
+    - [ "plex/Library/Application Support",
         "sabnzbd",
         "sickrage" ]
 

@@ -21,16 +21,18 @@ services:
       - 32414:32414/udp
     environment:
       - TZ=Europe/Amsterdam
-      - PLEX_UID="10000"
-      - PLEX_GID="10000"
+      - USER=media
+      - USERID=10000
+      - PLEX_UID=10000
+      - PLEX_GID=10000
       - PLEX_CLAIM=Wdtmn27zos7AqDtiq4tr
       - ADVERTISE_IP=http://localhost:32400
     volumes:
       - /shared/config/plex:/config
       - /shared/data/plex:/transcode
-      - /shared/media/TV.Shows:/data/tvshows
-      - /shared/media/Movies:/data/movies
-      - /shared/media/Music:/data/mediaTypeA
+      - /shared/media/TV.Shows:/data/tvshows:shared
+      - /shared/media/Movies:/data/movies:shared
+      - /shared/media/Music:/data/mediaTypeA:shared
 
   sabnzbd:
     container_name: sabnzbd
@@ -44,16 +46,18 @@ services:
       - "9090"
     environment:
       - TZ=Europe/Amsterdam
-      - PUID="10000"
-      - PGID="10000"
-      - ENV appUser="media"
-      - ENV appGroup="media"
+      - USER=media
+      - USERID=10000
+      - PUID=10000
+      - PGID=10000
+      - ENV appUser=media
+      - ENV appGroup=media
     volumes:
       - /etc/localtime:/etc/timezone:ro
       - /shared/config/sabnzbd:/config
-      - /shared/data/downloads:/downloads
-      - /shared/data/incomplete:/incomplete-downloads
-      - /shared/media:/media
+      - /shared/data/downloads:/downloads:shared
+      - /shared/data/incomplete:/incomplete-downloads:shared
+      - /shared/media:/media:shared
 
   transmission:
     container_name: transmission
@@ -66,15 +70,17 @@ services:
       - 51413:51413/udp
     environment:
       - TZ=Europe/Amsterdam
-      - PUID="10000"
-      - PGID="10000"
-      - ENV appUser="media"
-      - ENV appGroup="media"
+      - USER=media
+      - USERID=10000
+      - PUID=10000
+      - PGID=10000
+      - ENV appUser=media
+      - ENV appGroup=media
     volumes:
       - /etc/localtime:/etc/timezone:ro
-      - /shared/data/downloads:/downloads
-      - /shared/data/incomplete:/incomplete
-      - /shared/media:/media
+      - /shared/data/downloads:/downloads:shared
+      - /shared/data/incomplete:/incomplete:shared
+      - /shared/media:/media:shared
 
   sickrage:
     container_name: sickrage
@@ -85,12 +91,14 @@ services:
       - 8081:8081
     environment:
       - TZ=Europe/Amsterdam
-      - PUID="10000"
-      - PGID="10000"
-      - ENV appUser="media"
-      - ENV appGroup="media"
+      - USER=media
+      - USERID=10000
+      - PUID=10000
+      - PGID=10000
+      - ENV appUser=media
+      - ENV appGroup=media
     volumes:
       - /etc/localtime:/etc/timezone:ro
       - /shared/data/sickrage:/data
       - /shared/config/sickrage:/config
-      - /shared/media:/media
+      - /shared/media:/media:shared
