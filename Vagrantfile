@@ -20,6 +20,9 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "scorputty/centos"
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :"scorputty/centos"
+  end
 
   # I use the following plugin to keep a current VirtualBox Guest-Additions
   # $ vagrant plugin install vagrant-vbguest

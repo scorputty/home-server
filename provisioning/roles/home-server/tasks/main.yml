@@ -1,9 +1,11 @@
 ---
-  - include: setup-vm.yml
-    tags: setup-vm
+  - include: setup-base-vm.yml
+    tags: setup-base-vm
   - include: setup-nfs-shares.yml
     tags: setup-nfs-shares
-  - include: setup-docker.yml
-    tags: setup-docker
+  - include: setup-docker-dirs.yml
+    tags: setup-dirs-docker
+  - include: setup-docker-compose.yml
+    tags: setup-docker-compose
   # - include: setup-consul-agent.yml
   #   tags: setup-consul-agent

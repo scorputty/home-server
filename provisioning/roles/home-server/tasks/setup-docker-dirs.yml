@@ -1,20 +1,14 @@
 ---
-- set_fact: compose_dir=/opt/ansible-docker
-
-- file:
-    path: "{{ compose_dir }}"
-    state: directory
-    owner: media
-    group: media
-
-- name: upload docker files
+- name: make sure shared docker directories are available
   become: true
   become_user: media
-  synchronize:
-    src: "{{ item }}"
-    dest: "{{ compose_dir }}"
+  file:
+    path: "{{ item }}"
+    state: directory
   with_items:
-    - docker-compose.yml
+    - "{{ docker_data_dir }}"
+    - "{{ docker_config_dir }}"
+    - "{{ docker_media_dir }}"
 
 - name: create persistent docker config directories
   become: true
@@ -24,7 +18,7 @@
     state: directory
   with_nested:
     - [ "{{ docker_config_dir }}" ]
-    - [ "plex/Library/Application Support",
+    - [ "plex/Library/Application Support/Plex Media Server",
         "sabnzbd",
         "sickrage" ]
 
@@ -51,18 +45,3 @@
     - Movies
     - TV.Shows
     - Music
-
-- name: start docker daemon
-  service: name=docker state=started enabled=yes
-
-- name: start docker-compose
-  become: true
-  become_user: media
-  docker_service:
-    project_src: "{{ compose_dir }}"
-    debug: yes
-    recreate: always
-    state: present
-  register: output
-
-- debug: var=output

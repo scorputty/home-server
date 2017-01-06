@@ -17,14 +17,3 @@
 - name: configure /etc/fstab for nfs mount
   action: mount name={{ nfs_mount_dir }} src={{ nfs_server }}:{{ nfs_source_dir }} fstype=nfs opts={{ nfs_options }} state=mounted
   when: nfs_share == "true"
-
-- name: make sure shared docker directories are available
-  become: true
-  become_user: media
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ docker_data_dir }}"
-    - "{{ docker_config_dir }}"
-    - "{{ docker_media_dir }}"
