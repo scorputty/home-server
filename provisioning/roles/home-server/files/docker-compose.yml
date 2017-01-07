@@ -22,6 +22,21 @@ services:
       - /shared/media/Movies:/data/movies:shared
       - /shared/media/Music:/data/mediaTypeA:shared
 
+  transmission:
+    container_name: transmission
+    image: linuxserver/transmission
+    hostname: transmission
+    network_mode: host
+    environment:
+      - TZ=Europe/Amsterdam
+      - USER=media
+      - USERID=10000
+      - PUID=10000
+      - PGID=10000
+    volumes:
+      - /shared/config/transmission:/config
+      - /shared/media/Downloads:/downloads:shared
+
   sabnzbd:
     container_name: sabnzbd
     image: docker.io/cryptout/sabnzbd
@@ -37,26 +52,6 @@ services:
       - ENV appGroup=media
     volumes:
       - /shared/config/sabnzbd:/config
-      - /shared/data/downloads:/downloads:shared
-      - /shared/data/incomplete:/incomplete-downloads:shared
-      - /shared/media:/media:shared
-
-  transmission:
-    container_name: transmission
-    image: docker.io/cryptout/transmission
-    hostname: transmission
-    network_mode: host
-    environment:
-      - TZ=Europe/Amsterdam
-      - USER=media
-      - USERID=10000
-      - PUID=10000
-      - PGID=10000
-      - ENV appUser=media
-      - ENV appGroup=media
-    volumes:
-      - /shared/data/downloads:/downloads:shared
-      - /shared/data/incomplete:/incomplete:shared
       - /shared/media:/media:shared
 
   sickrage:
@@ -73,6 +68,5 @@ services:
       - ENV appUser=media
       - ENV appGroup=media
     volumes:
-      - /shared/data/sickrage:/data
       - /shared/config/sickrage:/config
       - /shared/media:/media:shared
