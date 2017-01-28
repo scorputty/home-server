@@ -1,4 +1,5 @@
 ---
+  
 - set_fact: compose_dir=/opt/ansible-docker
   tags: docker-compose
 
