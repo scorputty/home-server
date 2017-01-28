@@ -35,7 +35,7 @@ services:
       - PGID=10000
     volumes:
       - /shared/config/transmission:/config
-      - /shared/media/Downloads:/downloads:shared
+      - /shared/media/Downloads:/downloads
 
   sabnzbd:
     container_name: sabnzbd
@@ -52,7 +52,7 @@ services:
       - ENV appGroup=media
     volumes:
       - /shared/config/sabnzbd:/config
-      - /shared/media:/media:shared
+      - /shared/media:/media
 
   sickrage:
     container_name: sickrage
@@ -69,4 +69,4 @@ services:
       - ENV appGroup=media
     volumes:
       - /shared/config/sickrage:/config
-      - /shared/media:/media:shared
+      - /shared/media:/media
