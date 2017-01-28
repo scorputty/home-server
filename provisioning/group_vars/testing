@@ -1,10 +1,13 @@
 ---
-nfs_server: "172.16.10.1"
+nfs_share: "true"
+nfs_server: "super.sc-ict.intranet"
 nfs_options: "rw,sync,nfsvers=4"
-nfs_source_dir: "mars/shares/docker"
+# This should switch depending on environment
+nfs_source_dir: "mars/shares/TEST/home-server"
 nfs_mount_dir: "/shared"
 docker_data_dir: "{{ nfs_mount_dir }}/data"
 docker_config_dir: "{{ nfs_mount_dir }}/config"
 docker_log_dir: "{{ nfs_mount_dir }}/log"
 docker_media_dir: "{{ nfs_mount_dir }}/media"
 docker_registry_dir: "{{ nfs_mount_dir }}/docker-registry"
+plex_port: "32401"

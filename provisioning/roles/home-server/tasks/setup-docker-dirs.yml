@@ -1,0 +1,49 @@
+---
+- name: make sure shared docker directories are available
+  become: true
+  become_user: media
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ docker_data_dir }}"
+    - "{{ docker_config_dir }}"
+    - "{{ docker_media_dir }}"
+
+- name: create persistent docker config directories
+  become: true
+  become_user: media
+  file:
+    path: "{{ item.0 }}/{{ item.1 }}"
+    state: directory
+  with_nested:
+    - [ "{{ docker_config_dir }}" ]
+    - [ "plex/Library/Application Support/Plex Media Server",
+        "sabnzbd",
+        "sickrage",
+        "transmission" ]
+
+- name: create persistent docker data directories
+  become: true
+  become_user: media
+  file:
+    path: "{{ item.0 }}/{{ item.1 }}"
+    state: directory
+  with_nested:
+    - [ "{{ docker_data_dir }}" ]
+    - [ "placeholder01",
+        "placeholder02" ]
+
+- name: create shared docker media directories
+  become: true
+  become_user: media
+  file:
+    path: "{{ docker_media_dir }}/{{ item }}"
+    state: directory
+  with_items:
+    - Movies
+    - TV.Shows
+    - Music
+    - Downloads/incomplete
+    - Downloads/transmission
+    - Downloads/sabnzbd
