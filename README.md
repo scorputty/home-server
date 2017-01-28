@@ -1,5 +1,7 @@
 # Home-Server project
 
+Release test.
+
 This is my personal Home Server project. I use this project to learn more about Vagrant, Ansible and Docker.
 
 ## Howto
