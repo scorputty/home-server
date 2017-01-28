@@ -18,9 +18,9 @@ services:
       - ADVERTISE_IP=http://localhost:32400
     volumes:
       - /shared/config/plex:/config
-      - /shared/media/TV.Shows:/data/tvshows:shared
-      - /shared/media/Movies:/data/movies:shared
-      - /shared/media/Music:/data/mediaTypeA:shared
+      - /shared/media/TV.Shows:/data/tvshows
+      - /shared/media/Movies:/data/movies
+      - /shared/media/Music:/data/mediaTypeA
 
   transmission:
     container_name: transmission

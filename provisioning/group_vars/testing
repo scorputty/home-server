@@ -1,4 +1,6 @@
 ---
+# testing has NFS but does not connect to production media   
+system_env: "testing"
 nfs_share: "true"
 nfs_server: "super.sc-ict.intranet"
 nfs_options: "rw,sync,nfsvers=4"

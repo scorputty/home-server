@@ -1,10 +1,18 @@
 ---
+# production connects to production NFS media
+system_env: "production"
 nfs_share: "true"
 nfs_server: "super.sc-ict.intranet"
 nfs_options: "rw,sync,nfsvers=4"
 # This should switch depending on environment
 nfs_source_dir: "mars/shares/PROD/home-server"
 nfs_mount_dir: "/shared"
+nfs_source_tvshows_dir: "mars/shares/plex/TV.Shows"
+nfs_mount_tvshows_dir: "/shared/media/TV.Shows"
+nfs_source_movies_dir: "mars/shares/plex/Movies"
+nfs_mount_movies_dir: "/shared/media/Movies"
+nfs_source_downloads_dir: "mars/shares/plex/Downloads"
+nfs_mount_downloads_dir: "/shared/media/Downloads"
 docker_data_dir: "{{ nfs_mount_dir }}/data"
 docker_config_dir: "{{ nfs_mount_dir }}/config"
 docker_log_dir: "{{ nfs_mount_dir }}/log"

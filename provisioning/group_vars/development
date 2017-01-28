@@ -1,4 +1,5 @@
 ---
+system_env: "development"  
 # Development gets local mounts
 nfs_share: "false"
 nfs_mount_dir: "/shared"
