@@ -3,22 +3,22 @@
 version: '2'
 
 services:
-  # plex:
-  #   container_name: plex
-  #   image: plexinc/pms-docker
-  #   hostname: plex
-  #   network_mode: host
-  #   restart: unless-stopped
-  #   environment:
-  #     - TZ=Europe/Amsterdam
-  #     - USER=media
-  #     - USERID=10000
-  #     - PLEX_UID=10000
-  #     - PLEX_GID=10000
-  #     - ADVERTISE_IP=http://localhost:32400
-  #   volumes:
-  #     - /config/plex:/config
-  #     - /media:/data
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker
+    hostname: plex
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Amsterdam
+      - USER=media
+      - USERID=10000
+      - PLEX_UID=10000
+      - PLEX_GID=10000
+      - ADVERTISE_IP=http://localhost:32400
+    volumes:
+      - /config/plex:/config
+      - /media:/data
 
   transmission:
     container_name: transmission
