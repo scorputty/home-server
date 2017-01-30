@@ -3,24 +3,22 @@
 version: '2'
 
 services:
-  plex:
-    container_name: plex
-    image: plexinc/pms-docker
-    hostname: plex
-    network_mode: host
-    restart: unless-stopped
-    environment:
-      - TZ=Europe/Amsterdam
-      - USER=media
-      - USERID=10000
-      - PLEX_UID=10000
-      - PLEX_GID=10000
-      - ADVERTISE_IP=http://localhost:32400
-    volumes:
-      - /shared/config/plex:/config
-      - /shared/media/TV.Shows:/data/tvshows
-      - /shared/media/Movies:/data/movies
-      - /shared/media/Music:/data/mediaTypeA
+  # plex:
+  #   container_name: plex
+  #   image: plexinc/pms-docker
+  #   hostname: plex
+  #   network_mode: host
+  #   restart: unless-stopped
+  #   environment:
+  #     - TZ=Europe/Amsterdam
+  #     - USER=media
+  #     - USERID=10000
+  #     - PLEX_UID=10000
+  #     - PLEX_GID=10000
+  #     - ADVERTISE_IP=http://localhost:32400
+  #   volumes:
+  #     - /config/plex:/config
+  #     - /media:/data
 
   transmission:
     container_name: transmission
@@ -34,8 +32,8 @@ services:
       - PUID=10000
       - PGID=10000
     volumes:
-      - /shared/config/transmission:/config
-      - /shared/media/Downloads:/downloads
+      - /config/transmission:/config
+      - /media/Downloads:/Downloads
 
   sabnzbd:
     container_name: sabnzbd
@@ -51,8 +49,8 @@ services:
       - ENV appUser=media
       - ENV appGroup=media
     volumes:
-      - /shared/config/sabnzbd:/config
-      - /shared/media:/media
+      - /config/sabnzbd:/config
+      - /media:/media
 
   sickrage:
     container_name: sickrage
@@ -68,5 +66,5 @@ services:
       - ENV appUser=media
       - ENV appGroup=media
     volumes:
-      - /shared/config/sickrage:/config
-      - /shared/media:/media
+      - /config/sickrage:/config
+      - /media:/media

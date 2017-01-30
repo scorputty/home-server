@@ -1,11 +1,16 @@
 ---
-system_env: "development"  
+system_env: "development"
 # Development gets local mounts
 nfs_share: "false"
-nfs_mount_dir: "/shared"
-docker_data_dir: "{{ nfs_mount_dir }}/data"
-docker_config_dir: "{{ nfs_mount_dir }}/config"
-docker_log_dir: "{{ nfs_mount_dir }}/log"
-docker_media_dir: "{{ nfs_mount_dir }}/media"
-docker_registry_dir: "{{ nfs_mount_dir }}/docker-registry"
-plex_port: "32402"
+nfs_server: ""
+nfs_options: "rw,sync,nfsvers=4"
+# These NFS mounts should switch depending on environment
+nfs_config_source_dir: ""
+nfs_config_mount_dir: "/config"
+nfs_media_source_dir: ""
+nfs_media_mount_dir: "/media"
+# docker volume mounts
+docker_config_dir: "{{ nfs_config_mount_dir }}"
+docker_media_dir: "{{ nfs_media_mount_dir }}"
+# plex replace port
+plex_port: "32401"

@@ -3,41 +3,25 @@
 # echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping
 # nfsidmap -c
 # service rpcidmapd restart
-- name: ensure rpcbind is running
-  action: service name=rpcbind state=started enabled=yes
-  when: nfs_share == "true"
+- block:
+  - name: ensure rpcbind is running
+    action: service name=rpcbind state=started enabled=yes
 
-- name: create NFS mountpoint "{{ nfs_mount_dir }}"
-  file:
-    path: "{{ nfs_mount_dir }}"
-    state: directory
-    owner: media
-    group: media
+  - name: create NFS mountpoints
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: media
+      group: media
+    with_items:
+      - "{{ nfs_config_mount_dir }}"
+      - "{{ nfs_media_mount_dir }}"
 
-- name: configure /etc/fstab for nfs mount
-  action: mount name={{ nfs_mount_dir }} src={{ nfs_server }}:{{ nfs_source_dir }} fstype=nfs opts={{ nfs_options }} state=mounted
-  when: nfs_share == "true"
+  - name: configure /etc/fstab for nfs mount
+    action: mount name={{ item.mount }} src={{ nfs_server }}:{{ item.source }} fstype=nfs opts={{ nfs_options }} state=mounted
+    with_items:
+      - { mount: '{{ nfs_config_mount_dir }}', source: '{{ nfs_config_source_dir }}' }
+      - { mount: '{{ nfs_media_mount_dir }}', source: '{{ nfs_media_source_dir }}' }
 
-- name: create production NFS mountpoints
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: media
-    group: media
-  with_items:
-    - "{{ nfs_mount_tvshows_dir }}"
-    - "{{ nfs_mount_movies_dir }}"
-    - "{{ nfs_mount_downloads_dir }}"
   when:
     - nfs_share == "true"
-    - system_env == "production"
-
-- name: configure /etc/fstab for nfs mount
-  action: mount name={{ item.mount }} src={{ nfs_server }}:{{ item.source }} fstype=nfs opts={{ nfs_options }} state=mounted
-  with_items:
-    - { mount: '{{ nfs_mount_tvshows_dir }}', source: '{{ nfs_source_tvshows_dir }}' }
-    - { mount: '{{ nfs_mount_movies_dir }}', source: '{{ nfs_source_movies_dir }}' }
-    - { mount: '{{ nfs_mount_downloads_dir }}', source: '{{ nfs_source_downloads_dir }}' }
-  when:
-    - nfs_share == "true"
-    - system_env == "production"
