@@ -1,13 +1,16 @@
 ---
+# testing has NFS but does not connect to production media
+system_env: "testing"
 nfs_share: "true"
 nfs_server: "super.sc-ict.intranet"
 nfs_options: "rw,sync,nfsvers=4"
-# This should switch depending on environment
-nfs_source_dir: "mars/shares/TEST/home-server"
-nfs_mount_dir: "/shared"
-docker_data_dir: "{{ nfs_mount_dir }}/data"
-docker_config_dir: "{{ nfs_mount_dir }}/config"
-docker_log_dir: "{{ nfs_mount_dir }}/log"
-docker_media_dir: "{{ nfs_mount_dir }}/media"
-docker_registry_dir: "{{ nfs_mount_dir }}/docker-registry"
+# These NFS mounts should switch depending on environment
+nfs_config_source_dir: "mars/shares/TEST/home-server/config"
+nfs_config_mount_dir: "/config"
+nfs_media_source_dir: "mars/shares/TEST/home-server/media"
+nfs_media_mount_dir: "/media"
+# docker volume mounts
+docker_config_dir: "{{ nfs_config_mount_dir }}"
+docker_media_dir: "{{ nfs_media_mount_dir }}"
+# plex replace port
 plex_port: "32401"
