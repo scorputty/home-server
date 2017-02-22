@@ -1,3 +1,21 @@
 ---
 
-- name: make docker docker volumes
+- name: download docker-volume-netshare binary
+  unarchive:
+    src: https://github.com/ContainX/docker-volume-netshare/releases/download/v0.33/docker-volume-netshare_0.33_linux_amd64.tar.gz
+    dest: /usr/local/bin
+    remote_src: true
+
+- name: add docker-volume-netshare systemd script
+  template: src=templates/docker-volume-netshare.j2 dest=/etc/systemd/system/docker-volume-netshare.service
+
+- name: start services
+  systemd:
+    daemon_reload: yes
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - docker-volume-netshare
+  register: start
+  tags: docker-volume-netshare-service

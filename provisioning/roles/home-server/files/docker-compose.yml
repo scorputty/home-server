@@ -17,12 +17,12 @@ services:
       - PLEX_GID=10000
       - ADVERTISE_IP=http://localhost:32400
     volumes:
-      - /config/plex:/config
-      - /media:/data
+      - /share/config/plex:/config
+      - /share/media:/data
 
   transmission:
     container_name: transmission
-    image: linuxserver/transmission
+    image: docker.io/cryptout/transmission
     hostname: transmission
     network_mode: host
     environment:
@@ -32,8 +32,7 @@ services:
       - PUID=10000
       - PGID=10000
     volumes:
-      - /config/transmission:/config
-      - /media/Downloads:/Downloads
+      - /share:/share
 
   sabnzbd:
     container_name: sabnzbd
@@ -49,8 +48,7 @@ services:
       - ENV appUser=media
       - ENV appGroup=media
     volumes:
-      - /config/sabnzbd:/config
-      - /media:/media
+      - /share:/share
 
   sickrage:
     container_name: sickrage
@@ -66,5 +64,4 @@ services:
       - ENV appUser=media
       - ENV appGroup=media
     volumes:
-      - /config/sickrage:/config
-      - /media:/media
+      - /share:/share

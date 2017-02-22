@@ -14,14 +14,12 @@
       owner: media
       group: media
     with_items:
-      - "{{ nfs_config_mount_dir }}"
-      - "{{ nfs_media_mount_dir }}"
+      - "{{ nfs_mount_dir }}"
 
   - name: configure /etc/fstab for nfs mount
     action: mount name={{ item.mount }} src={{ nfs_server }}:{{ item.source }} fstype=nfs opts={{ nfs_options }} state=mounted
     with_items:
-      - { mount: '{{ nfs_config_mount_dir }}', source: '{{ nfs_config_source_dir }}' }
-      - { mount: '{{ nfs_media_mount_dir }}', source: '{{ nfs_media_source_dir }}' }
+      - { mount: '{{ nfs_mount_dir }}', source: '{{ nfs_source_dir }}' }
 
   when:
     - nfs_share == "true"
