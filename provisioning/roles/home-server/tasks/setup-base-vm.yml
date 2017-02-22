@@ -1,0 +1,20 @@
+---
+
+- name: remove yum-plugin-fastestmirror
+  yum: name=yum-utils state=absent
+
+- name: add epel repository
+  yum: name=epel-release state=present
+
+- name: install basic packages
+  yum: name={{ item }} state=present
+  with_items:
+    - htop
+    - sysstat
+    - lsof
+    - nfs-utils
+    - rsync
+    - strace
+    - traceroute
+    - vim
+    - unar

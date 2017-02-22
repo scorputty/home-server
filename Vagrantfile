@@ -7,6 +7,7 @@
 # you're doing.
 Vagrant.configure(2) do |config|
   config.vm.network "private_network", ip: "192.168.10.222"
+  config.vm.hostname = "dev-home-server"
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", 2048]
     vb.customize ["modifyvm", :id, "--cpus", 2]
@@ -19,19 +20,22 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "scorputty/centos"
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :"scorputty/centos"
+  end
 
   # I use the following plugin to keep a current VirtualBox Guest-Additions
   # $ vagrant plugin install vagrant-vbguest
   # link = https://github.com/dotless-de/vagrant-vbguest
-  config.vbguest.auto_update = true
+  config.vbguest.auto_update = false
   config.vbguest.no_remote = false
 
   # Run Ansible from the Vagrant Host
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "provisioning/main.yml"
-    ansible.verbose = "false"
-  end
-  # Run remote like this"
-  # ansible-playbook -i ~/ansible/hosts --ask-pass --user=vagrant --become provisioning/main.yml
+  # config.vm.provision "ansible" do |ansible|
+  #   ansible.playbook = "provisioning/main.yml"
+  #   ansible.verbose = "false"
+  # end
+  # Run remote like this:
+  # ansible-playbook --ask-pass --user=vagrant --become -i provisioning/inventories/development provisioning/site.yml --tags ntp
 
 end

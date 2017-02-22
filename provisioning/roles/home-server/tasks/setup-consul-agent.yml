@@ -1,18 +1,10 @@
 ---
-- name: register couchpotato service with the local consul agent
-  consul:
-    service_name: couchpotato
-    service_port: 5050
-    script: "curl http://0.0.0.0:5050"
-    interval: 10s
-    tags:
-      - prod
-
+  
 - name: register sabnzbd service with the local consul agent
   consul:
     service_name: sabnzbd
     service_port: 8080
-    script: "curl http://0.0.0.0:8080"
+    script: "curl -I -s -X GET http://localhost:8080"
     interval: 10s
     tags:
       - prod
@@ -21,16 +13,16 @@
   consul:
     service_name: sickrage
     service_port: 8081
-    script: "curl http://0.0.0.0:8081"
+    script: "curl -I -s -X GET http://localhost:8081"
     interval: 10s
     tags:
       - prod
 
-- name: register deluge service with the local consul agent
+- name: register transmission service with the local consul agent
   consul:
     service_name: transmission
     service_port: 9091
-    script: "curl http://0.0.0.0:9091"
+    script: "curl -I -s -X GET http://localhost:9091"
     interval: 10s
     tags:
       - prod

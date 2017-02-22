@@ -1,0 +1,25 @@
+---
+# if NFS id's don't match run this
+# echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping
+# nfsidmap -c
+# service rpcidmapd restart
+- block:
+  - name: ensure rpcbind is running
+    action: service name=rpcbind state=started enabled=yes
+
+  - name: create NFS mountpoints
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: media
+      group: media
+    with_items:
+      - "{{ nfs_mount_dir }}"
+
+  - name: configure /etc/fstab for nfs mount
+    action: mount name={{ item.mount }} src={{ nfs_server }}:{{ item.source }} fstype=nfs opts={{ nfs_options }} state=mounted
+    with_items:
+      - { mount: '{{ nfs_mount_dir }}', source: '{{ nfs_source_dir }}' }
+
+  when:
+    - nfs_share == "true"

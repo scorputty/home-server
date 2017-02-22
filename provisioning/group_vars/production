@@ -1,0 +1,16 @@
+---
+# production connects to production NFS media
+system_env: "production"
+nfs_share: "true"
+nfs_server: "super.sc-ict.intranet"
+nfs_options: "rw,sync,nfsvers=4"
+# This should switch depending on environment
+nfs_config_source_dir: "mars/shares/PROD/home-server/config"
+nfs_config_mount_dir: "/config"
+nfs_media_source_dir: "mars/shares/plex"
+nfs_media_mount_dir: "/media"
+# docker volume mounts
+docker_config_dir: "{{ nfs_config_mount_dir }}"
+docker_media_dir: "{{ nfs_media_mount_dir }}"
+# plex replace port
+plex_port: "32400"

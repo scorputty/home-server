@@ -1,0 +1,6 @@
+---
+# file: home-server.yml
+- hosts: all
+  roles:
+    - common
+    - home-server
