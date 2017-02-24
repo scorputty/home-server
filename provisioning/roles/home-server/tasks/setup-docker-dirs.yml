@@ -21,6 +21,7 @@
     - "sabnzbd"
     - "sickrage"
     - "transmission"
+    - "couchpotato"
 
 # - name: create persistent docker data directories
 #   become: true
@@ -52,3 +53,6 @@
     - "Downloads/sabnzbd/watch"
     - "Downloads/sabnzbd/complete"
     - "Downloads/sabnzbd/incomplete"
+    - "Downloads/couchpotato/watch"
+    - "Downloads/couchpotato/complete"
+    - "Downloads/couchpotato/incomplete"
