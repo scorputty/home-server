@@ -1,5 +1,5 @@
 ---
-  
+
 - set_fact: compose_dir=/opt/ansible-docker
   tags: docker-compose
 
@@ -32,15 +32,16 @@
   service: name=docker state=started enabled=yes
   tags: docker-compose
 
-- name: start docker-compose
-  become: true
-  become_user: media
-  docker_service:
-    project_src: "{{ compose_dir }}"
-    debug: yes
-    recreate: always
-    state: present
-  register: output
-  tags: docker-compose
-
-- debug: var=output
+# lets not autostart docker-compose
+# - name: start docker-compose
+#   become: true
+#   become_user: media
+#   docker_service:
+#     project_src: "{{ compose_dir }}"
+#     debug: yes
+#     recreate: always
+#     state: present
+#   register: output
+#   tags: docker-compose
+#
+# - debug: var=output
