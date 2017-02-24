@@ -3,7 +3,7 @@
 system_env: "testing"
 nfs_share: "true"
 nfs_server: "super.sc-ict.intranet"
-nfs_options: "rw,async,nfsvers=4"
+nfs_options: "rw,async,noacl,nocto,nodiratime,noatime,nfsvers=4"
 # These NFS mounts should switch depending on environment
 nfs_source_dir: "mars/shares/TEST/home-server"
 nfs_mount_dir: "/share"

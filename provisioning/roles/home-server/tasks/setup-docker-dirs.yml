@@ -14,7 +14,7 @@
   become: true
   become_user: media
   file:
-    path: "{{ docker_config_dir }}/{{ item.1 }}"
+    path: "{{ docker_config_dir }}/{{ item }}"
     state: directory
   with_items:
     - "plex/Library/Application Support/Plex Media Server"
