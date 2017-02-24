@@ -13,7 +13,10 @@
     - sysstat
     - lsof
     - nfs-utils
+    - nfs4-acl-tools
+    - portmap
     - rsync
     - strace
     - traceroute
     - vim
+    - unar

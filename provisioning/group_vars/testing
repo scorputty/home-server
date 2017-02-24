@@ -3,14 +3,12 @@
 system_env: "testing"
 nfs_share: "true"
 nfs_server: "super.sc-ict.intranet"
-nfs_options: "rw,sync,nfsvers=4"
+nfs_options: "rw,async,noacl,nocto,nodiratime,noatime,nfsvers=4"
 # These NFS mounts should switch depending on environment
-nfs_config_source_dir: "mars/shares/TEST/home-server/config"
-nfs_config_mount_dir: "/config"
-nfs_media_source_dir: "mars/shares/TEST/home-server/media"
-nfs_media_mount_dir: "/media"
+nfs_source_dir: "mars/shares/TEST/home-server"
+nfs_mount_dir: "/share"
 # docker volume mounts
-docker_config_dir: "{{ nfs_config_mount_dir }}"
-docker_media_dir: "{{ nfs_media_mount_dir }}"
+docker_config_dir: "{{ nfs_mount_dir }}/config"
+docker_media_dir: "{{ nfs_mount_dir }}/media"
 # plex replace port
 plex_port: "32401"

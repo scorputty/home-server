@@ -1,4 +1,5 @@
 ---
+  
 - name: register sabnzbd service with the local consul agent
   consul:
     service_name: sabnzbd
