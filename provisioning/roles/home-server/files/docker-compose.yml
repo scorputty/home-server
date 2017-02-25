@@ -1,4 +1,5 @@
-# This file will be called from Ansible
+# file: roles/home-server/files/docker-compose.yml
+# This file is under Ansible control
 
 version: '2'
 

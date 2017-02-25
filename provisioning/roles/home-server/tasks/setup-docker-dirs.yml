@@ -1,58 +1,48 @@
 ---
+  # file: roles/home-server/tasks/setup-docker-dirs.yml
+  - name: make sure shared docker directories are available
+    become: true
+    become_user: media
+    file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+      - "{{ docker_config_dir }}"
+      - "{{ docker_media_dir }}"
 
-- name: make sure shared docker directories are available
-  become: true
-  become_user: media
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ docker_config_dir }}"
-    - "{{ docker_media_dir }}"
+  - name: create persistent docker config directories
+    become: true
+    become_user: media
+    file:
+      path: "{{ docker_config_dir }}/{{ item }}"
+      state: directory
+    with_items:
+      - "plex/Library/Application Support/Plex Media Server"
+      - "sabnzbd"
+      - "sickrage"
+      - "transmission"
+      - "couchpotato"
 
-- name: create persistent docker config directories
-  become: true
-  become_user: media
-  file:
-    path: "{{ docker_config_dir }}/{{ item }}"
-    state: directory
-  with_items:
-    - "plex/Library/Application Support/Plex Media Server"
-    - "sabnzbd"
-    - "sickrage"
-    - "transmission"
-    - "couchpotato"
-
-# - name: create persistent docker data directories
-#   become: true
-#   become_user: media
-#   file:
-#     path: "{{ item.0 }}/{{ item.1 }}"
-#     state: directory
-#   with_nested:
-#     - [ "{{ docker_data_dir }}" ]
-#     - [ "placeholder01",
-#         "placeholder02" ]
-
-- name: create shared docker media directories
-  become: true
-  become_user: media
-  file:
-    path: "{{ docker_media_dir }}/{{ item }}"
-    state: directory
-  with_items:
-    - "Movies"
-    - "TV.Shows"
-    - "Music"
-    - "Downloads/sickrage/watch"
-    - "Downloads/sickrage/complete"
-    - "Downloads/sickrage/incomplete"
-    - "Downloads/transmission/watch"
-    - "Downloads/transmission/complete"
-    - "Downloads/transmission/incomplete"
-    - "Downloads/sabnzbd/watch"
-    - "Downloads/sabnzbd/complete"
-    - "Downloads/sabnzbd/incomplete"
-    - "Downloads/couchpotato/watch"
-    - "Downloads/couchpotato/complete"
-    - "Downloads/couchpotato/incomplete"
+  - name: create shared docker media directories
+    become: true
+    become_user: media
+    file:
+      path: "{{ docker_media_dir }}/{{ item }}"
+      state: directory
+    with_items:
+      - "Movies"
+      - "TV.Shows"
+      - "Music"
+      - "Downloads/sickrage/watch"
+      - "Downloads/sickrage/complete"
+      - "Downloads/sickrage/incomplete"
+      - "Downloads/transmission/watch"
+      - "Downloads/transmission/complete"
+      - "Downloads/transmission/incomplete"
+      - "Downloads/sabnzbd/watch"
+      - "Downloads/sabnzbd/complete/tv.shows"
+      - "Downloads/sabnzbd/complete/movies"
+      - "Downloads/sabnzbd/incomplete"
+      - "Downloads/couchpotato/watch"
+      - "Downloads/couchpotato/complete"
+      - "Downloads/couchpotato/incomplete"

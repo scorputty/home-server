@@ -1,19 +1,19 @@
 ---
+  # file: roles/home-server/tasks/setup-docker-user.yml
+  - name: add media group
+    group:
+      name: media
+      gid: 10000
+      state: present
 
-- name: add media group
-  group:
-    name: media
-    gid: 10000
-    state: present
+  - name: add media user
+    user:
+      name: media
+      uid: 10000
+      shell: /bin/bash
+      group: media
+      groups: docker
+      append: yes
 
-- name: add media user
-  user:
-    name: media
-    uid: 10000
-    shell: /bin/bash
-    group: media
-    groups: docker
-    append: yes
-
-- name: add bash_profile for media user
-  template: src=templates/media.profile.j2 dest=~media/.bash_profile
+  - name: add bash_profile for media user
+    template: src=templates/media.profile.j2 dest=~media/.bash_profile

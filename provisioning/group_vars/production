@@ -1,14 +1,15 @@
 ---
-# production connects to production NFS media
-system_env: "production"
-nfs_share: "true"
-nfs_server: "super.sc-ict.intranet"
-nfs_options: "rw,async,noacl,nocto,nodiratime,noatime,nfsvers=4"
-# These NFS mounts should switch depending on environment
-nfs_source_dir: "mars/shares/PROD/home-server"
-nfs_mount_dir: "/share"
-# docker volume mounts
-docker_config_dir: "{{ nfs_mount_dir }}/config"
-docker_media_dir: "{{ nfs_mount_dir }}/media"
-# plex replace port
-plex_port: "32400"
+  # file: group_vars/production
+  # production connects to production NFS media
+  system_env: "production"
+  nfs_share: "true"
+  nfs_server: "super.sc-ict.intranet"
+  nfs_options: "rw,async,noacl,nocto,nodiratime,noatime,nfsvers=4"
+  # These NFS mounts should switch depending on environment
+  nfs_source_dir: "mars/shares/PROD/home-server"
+  nfs_mount_dir: "/share"
+  # docker volume mounts
+  docker_config_dir: "{{ nfs_mount_dir }}/config"
+  docker_media_dir: "{{ nfs_mount_dir }}/media"
+  # plex replace port
+  plex_port: "32400"
