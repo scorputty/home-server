@@ -22,6 +22,7 @@
       - "sickrage"
       - "transmission"
       - "couchpotato"
+      - "plexpy"
 
   - name: create shared docker media directories
     become: true
