@@ -4,28 +4,29 @@
 version: '2'
 
 services:
-  plex:
-    container_name: plex
-    image: plexinc/pms-docker
-    hostname: plex
-    network_mode: host
-    restart: unless-stopped
-    environment:
-      - TZ=Europe/Amsterdam
-      - USER=media
-      - USERID=10000
-      - PLEX_UID=10000
-      - PLEX_GID=10000
-      - ADVERTISE_IP=http://localhost:32400
-    volumes:
-      - /share/config/plex:/config
-      - /share/media:/data
+  # don't run plex in docker for now
+  # plex:
+  #   container_name: plex
+  #   image: plexinc/pms-docker
+  #   hostname: plex
+  #   network_mode: "host"
+  #   restart: unless-stopped
+  #   environment:
+  #     - TZ=Europe/Amsterdam
+  #     - USER=media
+  #     - USERID=10000
+  #     - PLEX_UID=10000
+  #     - PLEX_GID=10000
+  #     - ADVERTISE_IP=http://localhost:32400
+  #   volumes:
+  #     - /share/config/plex:/config
+  #     - /share/media:/data
 
   transmission:
     container_name: transmission
     image: docker.io/cryptout/transmission
     hostname: transmission
-    network_mode: host
+    network_mode: "host"
     environment:
       - TZ=Europe/Amsterdam
       - USER=media
@@ -39,7 +40,7 @@ services:
     container_name: sabnzbd
     image: docker.io/cryptout/sabnzbd
     hostname: sabnzbd
-    network_mode: host
+    network_mode: "host"
     environment:
       - TZ=Europe/Amsterdam
       - USER=media
@@ -55,7 +56,7 @@ services:
     container_name: sickrage
     image: docker.io/cryptout/sickrage
     hostname: sickrage
-    network_mode: host
+    network_mode: "host"
     environment:
       - TZ=Europe/Amsterdam
       - USER=media
@@ -71,7 +72,7 @@ services:
     container_name: couchpotato
     image: docker.io/cryptout/couchpotato
     hostname: couchpotato
-    network_mode: host
+    network_mode: "host"
     environment:
       - TZ=Europe/Amsterdam
       - USER=media
@@ -87,7 +88,7 @@ services:
     container_name: plexpy
     image: docker.io/cryptout/plexpy
     hostname: plexpy
-    network_mode: host
+    network_mode: "host"
     environment:
       - TZ=Europe/Amsterdam
       - USER=media

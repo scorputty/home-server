@@ -17,3 +17,6 @@
 
   - include: setup-docker-compose.yml
     tags: setup-docker-compose
+
+  - include: setup-plex.yml
+    tags: setup-plex
