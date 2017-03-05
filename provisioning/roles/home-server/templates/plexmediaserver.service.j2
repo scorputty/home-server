@@ -3,7 +3,7 @@ Description=Plex Media Server for Linux
 After=network.target
 
 [Service]
-Environment="PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/share/config/plex/Library/Application Support"
+Environment="PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR={{ metadata_plex_dir }}"
 Environment=PLEX_MEDIA_SERVER_HOME=/usr/lib/plexmediaserver
 Environment=PLEX_MEDIA_SERVER_MAX_PLUGIN_PROCS=6
 Environment=PLEX_MEDIA_SERVER_TMPDIR=/tmp

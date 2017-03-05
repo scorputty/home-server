@@ -1,0 +1,44 @@
+---
+  # file: roles/home-server/tasks/setup-metadata-disk.yml
+  # plex metadata only for production to speed up plex
+  # metadata_disk: "true"
+  # metadata_disk_source: "/dev/sdb"
+  # metadata_mount_dir: "/metadata"
+  # metadata_owner: "media"
+  # metadata_group: "media"
+  # metadata_xfs_options: "defaults"
+
+  - block:
+
+    - name: metadata mountpoint
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: media
+        group: media
+      with_items:
+        - "{{ metadata_mount_dir }}"
+
+    - name: create xfs filesystem
+      filesystem:
+        fstype: xfs
+        dev: /dev/sdb
+
+    - name: mount metadata_disk
+      mount:
+        name: "{{ metadata_mount_dir }}"
+        src: "{{ metadata_disk_source }}"
+        fstype: xfs
+        state: mounted
+
+    - name: create plex directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: media
+        group: media
+      with_items:
+        - "{{ metadata_plex_dir }}"
+
+    when:
+      - metadata_disk == "true"

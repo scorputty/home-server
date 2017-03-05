@@ -13,3 +13,5 @@
   docker_media_dir: "{{ nfs_mount_dir }}/media"
   # plex replace port
   plex_port: "32401"
+  # plex metadata
+  metadata_disk: "false"

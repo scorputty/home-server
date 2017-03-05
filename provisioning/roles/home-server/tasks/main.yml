@@ -12,6 +12,9 @@
   - include: setup-nfs-shares.yml
     tags: setup-nfs-shares
 
+  - include: setup-metadata-disk.yml
+    tags: setup-metadata-disk
+
   - include: setup-docker-dirs.yml
     tags: setup-dirs-docker
 

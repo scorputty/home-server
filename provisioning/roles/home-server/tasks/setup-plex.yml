@@ -4,7 +4,7 @@
   # hardcoded variables should be replaced in future versions
   - name: install plex package
     yum:
-      name: https://downloads.plex.tv/plex-media-server/1.4.2.3400-ab906953b/plexmediaserver-1.4.2.3400-ab906953b.x86_64.rpm
+      name: https://downloads.plex.tv/plex-media-server/1.4.3.3433-03e4cfa35/plexmediaserver-1.4.3.3433-03e4cfa35.x86_64.rpm
       state: present
 
   - name: remove local metadata directory
@@ -19,5 +19,5 @@
     systemd:
       daemon_reload: yes
       name: plexmediaserver.service
-      state: started
+      state: stopped
       enabled: true

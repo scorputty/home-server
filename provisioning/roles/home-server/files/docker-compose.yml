@@ -98,4 +98,4 @@ services:
       - ENV appUser=media
       - ENV appGroup=media
     volumes:
-      - /share:/share
+      - VARIABLE_MOUNT:/share

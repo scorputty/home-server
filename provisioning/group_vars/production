@@ -4,7 +4,7 @@
   system_env: "production"
   nfs_share: "true"
   nfs_server: "super.sc-ict.intranet"
-  nfs_options: "rw,async,noacl,nocto,nodiratime,noatime,nfsvers=4"
+  nfs_options: "rw,noatime,nfsvers=4"
   # These NFS mounts should switch depending on environment
   nfs_source_dir: "mars/shares/PROD/home-server"
   nfs_mount_dir: "/share"
@@ -13,3 +13,11 @@
   docker_media_dir: "{{ nfs_mount_dir }}/media"
   # plex replace port
   plex_port: "32400"
+  # plex metadata
+  metadata_disk: "true"
+  metadata_disk_source: "/dev/sdb"
+  metadata_mount_dir: "/metadata"
+  metadata_owner: "media"
+  metadata_group: "media"
+  metadata_xfs_options: "defaults"
+  metadata_plex_dir: "{{ metadata_mount_dir }}/plex/Library/Application Support"

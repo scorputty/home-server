@@ -10,7 +10,7 @@
       - "{{ docker_config_dir }}"
       - "{{ docker_media_dir }}"
 
-  - name: create persistent docker config directories
+  - name: create NFS persistent docker config directories
     become: true
     become_user: media
     file:
@@ -23,6 +23,34 @@
       - "transmission"
       - "couchpotato"
       - "plexpy"
+    when:
+      - metadata_disk == "false"
+
+  - name: create NFS persistent docker config directories
+    become: true
+    become_user: media
+    file:
+      path: "{{ docker_config_dir }}/{{ item }}"
+      state: directory
+    with_items:
+      - "sabnzbd"
+      - "sickrage"
+      - "transmission"
+      - "couchpotato"
+    when:
+      - metadata_disk == "true"
+
+  - name: create VDI persistent directories for plex and plexpy
+    become: true
+    become_user: media
+    file:
+      path: "{{ metadata_mount_dir }}/{{ item }}"
+      state: directory
+    with_items:
+      - "plex/Library/Application Support/Plex Media Server"
+      - "config/plexpy"
+    when:
+      - metadata_disk == "true"
 
   - name: create shared docker media directories
     become: true

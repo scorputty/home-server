@@ -26,7 +26,27 @@
   #     dest: "{{ compose_dir }}/docker-compose.yml"
   #     regexp: 'ADVERTISE_IP=.*'
   #     replace: 'ADVERTISE_IP=http://{{ inventory_hostname }}:{{ plex_port }}'
+  #   when:
+  #     - system_env != "production"
   #   tags: docker-compose
+
+  - name: edit docker-compose.yml with metadata_disk
+    replace:
+      dest: "{{ compose_dir }}/docker-compose.yml"
+      regexp: 'VARIABLE_MOUNT'
+      replace: '/metadata'
+    when:
+      - metadata_disk == "true"
+    tags: docker-compose
+
+  - name: edit docker-compose.yml without metadata_disk
+    replace:
+      dest: "{{ compose_dir }}/docker-compose.yml"
+      regexp: 'VARIABLE_MOUNT'
+      replace: '/share'
+    when:
+      - metadata_disk == "false"
+    tags: docker-compose
 
   - name: start docker daemon
     service: name=docker state=started enabled=yes
