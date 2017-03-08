@@ -68,21 +68,21 @@ services:
     volumes:
       - /share:/share
 
-  couchpotato:
-    container_name: couchpotato
-    image: docker.io/cryptout/couchpotato
-    hostname: couchpotato
-    network_mode: "host"
-    environment:
-      - TZ=Europe/Amsterdam
-      - USER=media
-      - USERID=10000
-      - PUID=10000
-      - PGID=10000
-      - ENV appUser=media
-      - ENV appGroup=media
-    volumes:
-      - /share:/share
+  # couchpotato:
+  #   container_name: couchpotato
+  #   image: docker.io/cryptout/couchpotato
+  #   hostname: couchpotato
+  #   network_mode: "host"
+  #   environment:
+  #     - TZ=Europe/Amsterdam
+  #     - USER=media
+  #     - USERID=10000
+  #     - PUID=10000
+  #     - PGID=10000
+  #     - ENV appUser=media
+  #     - ENV appGroup=media
+  #   volumes:
+  #     - /share:/share
 
   plexpy:
     container_name: plexpy

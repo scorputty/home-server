@@ -69,6 +69,7 @@
       - "Downloads/transmission/complete"
       - "Downloads/transmission/incomplete"
       - "Downloads/sabnzbd/watch"
+      - "Downloads/sabnzbd/complete/anime"
       - "Downloads/sabnzbd/complete/tv.shows"
       - "Downloads/sabnzbd/complete/movies"
       - "Downloads/sabnzbd/incomplete"
