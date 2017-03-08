@@ -5,7 +5,7 @@ Release test.
 This is my personal Home Server project. I use this project to learn more about Vagrant, Ansible and Docker.
 
 ## Howto
-With this project you can build and manage a multistage (Dev, Test, Prod) home media server. The server runs various Docker containers for managing "media" files. I run the Dev environment with Vagrant on my laptop and the Test and Prod environments are running on a separate server.
+With this project you can build and manage a multistage (Dev, Test, Prod) home media server. The server runs various Docker containers for managing "media" files. I run the Dev environment with Vagrant on my laptop and the Test and Prod environments are running on a separate server with shared NFS storage.
 
 ### Bring up the Vagrant Development environment
 ```

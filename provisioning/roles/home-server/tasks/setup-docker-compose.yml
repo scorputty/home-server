@@ -1,47 +1,67 @@
 ---
+  # file: roles/home-server/tasks/setup-docker-compose.yml
+  - set_fact: compose_dir=/opt/ansible-docker
+    tags: docker-compose
 
-- set_fact: compose_dir=/opt/ansible-docker
-  tags: docker-compose
+  - name: make sure {{ compose_dir }} exists
+    file:
+      path: "{{ compose_dir }}"
+      state: directory
+      owner: media
+      group: media
+    tags: docker-compose
 
-- name: make sure {{ compose_dir }} exists
-  file:
-    path: "{{ compose_dir }}"
-    state: directory
-    owner: media
-    group: media
-  tags: docker-compose
+  - name: upload docker files
+    become: true
+    become_user: media
+    synchronize:
+      src: "{{ item }}"
+      dest: "{{ compose_dir }}"
+    with_items:
+      - docker-compose.yml
+    tags: docker-compose
 
-- name: upload docker files
-  become: true
-  become_user: media
-  synchronize:
-    src: "{{ item }}"
-    dest: "{{ compose_dir }}"
-  with_items:
-    - docker-compose.yml
-  tags: docker-compose
+  # - name: edit docker-compose.yml
+  #   replace:
+  #     dest: "{{ compose_dir }}/docker-compose.yml"
+  #     regexp: 'ADVERTISE_IP=.*'
+  #     replace: 'ADVERTISE_IP=http://{{ inventory_hostname }}:{{ plex_port }}'
+  #   when:
+  #     - system_env != "production"
+  #   tags: docker-compose
 
-- name: edit docker-compose.yml
-  replace:
-    dest: "{{ compose_dir }}/docker-compose.yml"
-    regexp: 'ADVERTISE_IP=.*'
-    replace: 'ADVERTISE_IP=http://{{ inventory_hostname }}:{{ plex_port }}'
-  tags: docker-compose
+  - name: edit docker-compose.yml with metadata_disk
+    replace:
+      dest: "{{ compose_dir }}/docker-compose.yml"
+      regexp: 'VARIABLE_MOUNT'
+      replace: '/metadata'
+    when:
+      - metadata_disk == "true"
+    tags: docker-compose
 
-- name: start docker daemon
-  service: name=docker state=started enabled=yes
-  tags: docker-compose
+  - name: edit docker-compose.yml without metadata_disk
+    replace:
+      dest: "{{ compose_dir }}/docker-compose.yml"
+      regexp: 'VARIABLE_MOUNT'
+      replace: '/share'
+    when:
+      - metadata_disk == "false"
+    tags: docker-compose
 
-# lets not autostart docker-compose
-# - name: start docker-compose
-#   become: true
-#   become_user: media
-#   docker_service:
-#     project_src: "{{ compose_dir }}"
-#     debug: yes
-#     recreate: always
-#     state: present
-#   register: output
-#   tags: docker-compose
-#
-# - debug: var=output
+  - name: start docker daemon
+    service: name=docker state=started enabled=yes
+    tags: docker-compose
+
+  # lets not autostart docker-compose
+  # - name: start docker-compose
+  #   become: true
+  #   become_user: media
+  #   docker_service:
+  #     project_src: "{{ compose_dir }}"
+  #     debug: yes
+  #     recreate: always
+  #     state: present
+  #   register: output
+  #   tags: docker-compose
+  #
+  # - debug: var=output

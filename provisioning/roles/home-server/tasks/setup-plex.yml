@@ -1,0 +1,23 @@
+---
+  # file: roles/home-server/tasks/setup-plex.yml
+  # since docker plex is not stable I choose to run a local plexserver
+  # hardcoded variables should be replaced in future versions
+  - name: install plex package
+    yum:
+      name: https://downloads.plex.tv/plex-media-server/1.4.3.3433-03e4cfa35/plexmediaserver-1.4.3.3433-03e4cfa35.x86_64.rpm
+      state: present
+
+  - name: remove local metadata directory
+    file:
+      path: /var/lib/plexmediaserver
+      state: absent
+
+  - name: copy plexmediaserver.service template
+    template: src=templates/plexmediaserver.service.j2 dest=/usr/lib/systemd/system/plexmediaserver.service
+
+  - name: start plex mediaserver
+    systemd:
+      daemon_reload: yes
+      name: plexmediaserver.service
+      state: stopped
+      enabled: true
