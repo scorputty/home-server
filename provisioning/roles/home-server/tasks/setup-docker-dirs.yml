@@ -23,6 +23,7 @@
       - "transmission"
       - "couchpotato"
       - "plexpy"
+      - "deluge"
     when:
       - metadata_disk == "false"
 
@@ -37,6 +38,7 @@
       - "sickrage"
       - "transmission"
       - "couchpotato"
+      - "deluge"
     when:
       - metadata_disk == "true"
 
@@ -75,4 +77,6 @@
       - "Downloads/sabnzbd/incomplete"
       - "Downloads/couchpotato/watch"
       - "Downloads/couchpotato/complete"
-      - "Downloads/couchpotato/incomplete"
+      - "Downloads/deluge/incomplete"
+      - "Downloads/deluge/watch"
+      - "Downloads/deluge/complete"

@@ -71,3 +71,5 @@ function drmrf {
     drmi >/dev/null 2>&1
   fi
 }
+# remove docker logs
+alias rml="truncate -s 0 /var/lib/docker/containers/*/*-json.log"

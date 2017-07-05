@@ -99,3 +99,29 @@ services:
       - ENV appGroup=media
     volumes:
       - VARIABLE_MOUNT:/share
+
+  delugevpn:
+    container_name: delugevpn
+    image: binhex/arch-delugevpn
+    hostname: delugevpn
+    cap_drop:
+      - NET_ADMIN
+    environment:
+      - TZ=Europe/Amsterdam
+      - VPN_ENABLED=yes
+      - VPN_REMOTE=nl.vpn.airdns.org
+      - VPN_PORT=443
+      - VPN_PROTOCOL=udp
+      - VPN_DEVICE_TYPE=tun
+      - VPN_PROV=airvpn
+      - ENABLE_PRIVOXY=yes
+      - LAN_NETWORK=172.16.10.0/16
+      - NAME_SERVERS=8.8.8.8,8.8.4.4
+      - DEBUG=false
+      - UMASK=000
+      - PUID=10000
+      - PGID=10000
+    volumes:
+      - /metadata/config/deluge:/config
+      - /data
+      - /etc/localtime:/etc/localtime:ro
