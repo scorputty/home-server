@@ -4,36 +4,36 @@
 version: '2'
 
 services:
-  # don't run plex in docker for now
-  # plex:
-  #   container_name: plex
-  #   image: plexinc/pms-docker
-  #   hostname: plex
-  #   network_mode: "host"
-  #   restart: unless-stopped
-  #   environment:
-  #     - TZ=Europe/Amsterdam
-  #     - USER=media
-  #     - USERID=10000
-  #     - PLEX_UID=10000
-  #     - PLEX_GID=10000
-  #     - ADVERTISE_IP=http://localhost:32400
-  #   volumes:
-  #     - /share/config/plex:/config
-  #     - /share/media:/data
-
   transmission:
     container_name: transmission
-    image: docker.io/cryptout/transmission
-    hostname: transmission
-    network_mode: "host"
+    image: haugene/transmission-openvpn
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    restart: always
+    ports:
+      - "9091:9091"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     environment:
-      - TZ=Europe/Amsterdam
-      - USER=media
-      - USERID=10000
+      - OPENVPN_PROVIDER=CUSTOM
+      - OPENVPN_USERNAME=username
+      - OPENVPN_PASSWORD=password
+      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+      - LOCAL_NETWORK=172.16.0.0/16
       - PUID=10000
       - PGID=10000
+      - TRANSMISSION_HOME=/share/config/transmission
+      - TRANSMISSION_DOWNLOAD_DIR=/share/media/Downloads/transmission/complete
+      - TRANSMISSION_INCOMPLETE_DIR=/share/media/Downloads/transmission/incomplete
+      - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
+      - TRANSMISSION_WATCH_DIR=/share/media/Downloads/transmission/watch
+      - TRANSMISSION_WATCH_DIR_ENABLED=true
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /root/vpn/config.ovpn:/etc/openvpn/custom/default.ovpn
       - /share:/share
 
   sabnzbd:
@@ -68,22 +68,6 @@ services:
     volumes:
       - /share:/share
 
-  # couchpotato:
-  #   container_name: couchpotato
-  #   image: docker.io/cryptout/couchpotato
-  #   hostname: couchpotato
-  #   network_mode: "host"
-  #   environment:
-  #     - TZ=Europe/Amsterdam
-  #     - USER=media
-  #     - USERID=10000
-  #     - PUID=10000
-  #     - PGID=10000
-  #     - ENV appUser=media
-  #     - ENV appGroup=media
-  #   volumes:
-  #     - /share:/share
-
   plexpy:
     container_name: plexpy
     image: docker.io/cryptout/plexpy
@@ -99,29 +83,3 @@ services:
       - ENV appGroup=media
     volumes:
       - VARIABLE_MOUNT:/share
-
-  delugevpn:
-    container_name: delugevpn
-    image: binhex/arch-delugevpn
-    hostname: delugevpn
-    cap_drop:
-      - NET_ADMIN
-    environment:
-      - TZ=Europe/Amsterdam
-      - VPN_ENABLED=yes
-      - VPN_REMOTE=nl.vpn.airdns.org
-      - VPN_PORT=443
-      - VPN_PROTOCOL=udp
-      - VPN_DEVICE_TYPE=tun
-      - VPN_PROV=airvpn
-      - ENABLE_PRIVOXY=yes
-      - LAN_NETWORK=172.16.10.0/16
-      - NAME_SERVERS=8.8.8.8,8.8.4.4
-      - DEBUG=false
-      - UMASK=000
-      - PUID=10000
-      - PGID=10000
-    volumes:
-      - /metadata/config/deluge:/config
-      - /data
-      - /etc/localtime:/etc/localtime:ro

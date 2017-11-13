@@ -4,7 +4,9 @@
   # hardcoded variables should be replaced in future versions
 
   - name: copy plex.repo template
-    template: src=templates/plex.repo.j2 dest=/etc/yum.repos.d/plex.repo
+    template:
+      src: templates/plex.repo.j2
+      dest: /etc/yum.repos.d/plex.repo
 
   - name: install plex package
     yum:
@@ -17,14 +19,21 @@
       state: absent
 
   - name: copy plexmediaserver.service template
-    template: src=templates/plexmediaserver.service.j2 dest=/usr/lib/systemd/system/plexmediaserver.service
+    template:
+      src: templates/plexmediaserver.service.j2
+      dest: /usr/lib/systemd/system/plexmediaserver.service
+      backup: yes
 
-  - name: copy chromecast.xml (Ultra) template
-    template: src=templates/chromecastultra.xml.j2 dest=/usr/lib/plexmediaserver/Resources/Profiles/Chromecast.xml
+
+  - name: copy Chromecast.xml (Ultra) template
+    template:
+      src: templates/chromecastultra.xml.j2
+      dest: /usr/lib/plexmediaserver/Resources/Profiles/Chromecast.xml
+      backup: yes
 
   - name: start plex mediaserver
     systemd:
       daemon_reload: yes
       name: plexmediaserver.service
-      state: stopped
+      state: restarted
       enabled: true
