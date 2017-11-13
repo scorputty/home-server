@@ -1,25 +1,25 @@
 ---
   # file: roles/home-server/tasks/main.yml
-  - include: setup-base-vm.yml
+  - include_tasks: setup-base-vm.yml
     tags: setup-base-vm
 
-  - include: setup-docker-pkgs.yml
+  - include_tasks: setup-docker-pkgs.yml
     tags: setup-docker-pkgs
 
-  - include: setup-docker-user.yml
+  - include_tasks: setup-docker-user.yml
     tags: setup-docker-user
 
-  - include: setup-nfs-shares.yml
+  - include_tasks: setup-nfs-shares.yml
     tags: setup-nfs-shares
 
-  - include: setup-metadata-disk.yml
+  - include_tasks: setup-metadata-disk.yml
     tags: setup-metadata-disk
 
-  - include: setup-docker-dirs.yml
+  - include_tasks: setup-docker-dirs.yml
     tags: setup-dirs-docker
 
-  - include: setup-docker-compose.yml
+  - include_tasks: setup-docker-compose.yml
     tags: setup-docker-compose
 
-  - include: setup-plex.yml
+  - include_tasks: setup-plex.yml
     tags: setup-plex
