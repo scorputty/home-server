@@ -25,11 +25,12 @@
       backup: yes
 
 
-  - name: copy Chromecast.xml (Ultra) template
-    template:
-      src: templates/chromecastultra.xml.j2
-      dest: /usr/lib/plexmediaserver/Resources/Profiles/Chromecast.xml
-      backup: yes
+## Not needed anymore...
+  # - name: copy Chromecast.xml (Ultra) template
+  #   template:
+  #     src: templates/chromecastultra.xml.j2
+  #     dest: /usr/lib/plexmediaserver/Resources/Profiles/Chromecast.xml
+  #     backup: yes
 
   - name: start plex mediaserver
     systemd:
