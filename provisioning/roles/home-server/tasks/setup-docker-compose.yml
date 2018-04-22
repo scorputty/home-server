@@ -21,15 +21,6 @@
       - docker-compose.yml
     tags: docker-compose
 
-  # - name: edit docker-compose.yml
-  #   replace:
-  #     dest: "{{ compose_dir }}/docker-compose.yml"
-  #     regexp: 'ADVERTISE_IP=.*'
-  #     replace: 'ADVERTISE_IP=http://{{ inventory_hostname }}:{{ plex_port }}'
-  #   when:
-  #     - system_env != "production"
-  #   tags: docker-compose
-
   - name: edit docker-compose.yml with metadata_disk
     replace:
       dest: "{{ compose_dir }}/docker-compose.yml"
@@ -52,16 +43,15 @@
     service: name=docker state=started enabled=yes
     tags: docker-compose
 
-  # lets not autostart docker-compose
-  # - name: start docker-compose
-  #   become: true
-  #   become_user: media
-  #   docker_service:
-  #     project_src: "{{ compose_dir }}"
-  #     debug: yes
-  #     recreate: always
-  #     state: present
-  #   register: output
-  #   tags: docker-compose
-  #
-  # - debug: var=output
+  - name: start docker-compose
+    become: true
+    become_user: media
+    docker_service:
+      project_src: "{{ compose_dir }}"
+      debug: yes
+      recreate: always
+      state: present
+    register: output
+    tags: docker-compose
+
+  - debug: var=output

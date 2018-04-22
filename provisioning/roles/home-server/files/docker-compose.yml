@@ -4,9 +4,16 @@
 version: '2'
 
 services:
+
   transmission:
     container_name: transmission
+    hostname: transmission
     image: haugene/transmission-openvpn
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     cap_add:
       - NET_ADMIN
     devices:
@@ -38,8 +45,13 @@ services:
 
   sabnzbd:
     container_name: sabnzbd
-    image: docker.io/cryptout/sabnzbd
     hostname: sabnzbd
+    image: docker.io/cryptout/sabnzbd
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     network_mode: "host"
     environment:
       - TZ=Europe/Amsterdam
@@ -54,8 +66,13 @@ services:
 
   sickrage:
     container_name: sickrage
-    image: docker.io/cryptout/sickrage
     hostname: sickrage
+    image: docker.io/cryptout/sickrage
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     network_mode: "host"
     environment:
       - TZ=Europe/Amsterdam
@@ -70,8 +87,13 @@ services:
 
   plexpy:
     container_name: plexpy
-    image: docker.io/cryptout/plexpy
     hostname: plexpy
+    image: docker.io/cryptout/plexpy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     network_mode: "host"
     environment:
       - TZ=Europe/Amsterdam
